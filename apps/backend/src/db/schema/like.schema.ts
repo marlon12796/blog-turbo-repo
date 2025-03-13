@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { int, text, unique, sqliteTable } from 'drizzle-orm/sqlite-core';
 
 import { postsTable } from './posts.schema';
@@ -14,3 +14,14 @@ export const likesTable = sqliteTable(
   },
   (t) => [unique('unique_like').on(t.userId, t.postId)],
 );
+
+export const likesRelations = relations(likesTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [likesTable.userId],
+    references: [usersTable.id],
+  }),
+  likedPost: one(postsTable, {
+    fields: [likesTable.postId],
+    references: [postsTable.id],
+  }),
+}));

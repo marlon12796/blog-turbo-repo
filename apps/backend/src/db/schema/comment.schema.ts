@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { postsTable } from './posts.schema';
 import { usersTable } from './users.schema';
@@ -14,3 +14,13 @@ export const commentsTable = sqliteTable('comments', {
     .default(sql`(CURRENT_TIMESTAMP)`)
     .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 });
+export const commentsRelations = relations(commentsTable, ({ one }) => ({
+  author: one(usersTable, {
+    fields: [commentsTable.authorId],
+    references: [usersTable.id],
+  }),
+  post: one(postsTable, {
+    fields: [commentsTable.postId],
+    references: [postsTable.id],
+  }),
+}));
