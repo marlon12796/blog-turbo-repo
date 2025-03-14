@@ -2,11 +2,59 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""Representa una publicación en la plataforma."""
+type Post {
+  """Identificador único del post."""
+  id: Int!
+
+  """Título de la publicación."""
+  title: String!
+
+  """Contenido principal del post."""
+  content: String!
+
+  """URL de la imagen en miniatura del post."""
+  thumbnail: String
+
+  """ID del autor que creó el post."""
+  authorId: Int!
+
+  """Indica si la publicación está publicada o en borrador."""
+  published: Boolean!
+
+  """Fecha de creación del post."""
+  createdAt: DateTime!
+
+  """Última fecha de actualización del post."""
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   hello: String!
+  posts: [Post!]!
+  post(id: Int!): Post!
 }
 
 type Mutation {
   """Ejecuta la construcción de la base de datos """
   ExecuteSeed: Boolean!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

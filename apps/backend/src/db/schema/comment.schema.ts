@@ -8,11 +8,11 @@ export const commentsTable = sqliteTable('comments', {
   postId: integer().references(() => postsTable.id),
   authorId: integer().references(() => usersTable.id),
   content: text().notNull(),
-  createdAt: text().default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text()
+  createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
+  updatedAt: integer({ mode: 'timestamp' })
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`)
 });
 export const commentsRelations = relations(commentsTable, ({ one }) => ({
   author: one(usersTable, {

@@ -3,8 +3,8 @@ CREATE TABLE `comments` (
 	`postId` integer,
 	`authorId` integer,
 	`content` text NOT NULL,
-	`createdAt` text DEFAULT (CURRENT_TIMESTAMP),
-	`updatedAt` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()),
+	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
 	FOREIGN KEY (`postId`) REFERENCES `posts`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`authorId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
@@ -13,7 +13,7 @@ CREATE TABLE `likes` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`postId` integer,
 	`userId` integer,
-	`createdAt` text DEFAULT CURRENT_TIMESTAMP,
+	`createdAt` integer DEFAULT (unixepoch()),
 	FOREIGN KEY (`postId`) REFERENCES `posts`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
@@ -35,8 +35,8 @@ CREATE TABLE `posts` (
 	`thumbnail` text,
 	`authorId` integer,
 	`published` integer,
-	`createdAt` text DEFAULT (CURRENT_TIMESTAMP),
-	`updatedAt` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()),
+	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
 	FOREIGN KEY (`authorId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
@@ -52,8 +52,8 @@ CREATE TABLE `users` (
 	`name` text NOT NULL,
 	`email` text NOT NULL,
 	`password` text NOT NULL,
-	`createdAt` text DEFAULT (CURRENT_TIMESTAMP),
-	`updatedAt` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL
+	`createdAt` integer DEFAULT (unixepoch()),
+	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);

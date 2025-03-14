@@ -1,5 +1,5 @@
 import { relations, sql } from 'drizzle-orm';
-import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { int, sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { postsTable } from './posts.schema';
 import { likesTable } from './like.schema';
 import { commentsTable } from './comment.schema';
@@ -9,11 +9,11 @@ export const usersTable = sqliteTable('users', {
   name: text().notNull(),
   email: text().notNull().unique(),
   password: text().notNull(),
-  createdAt: text().default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text()
+  createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
+  updatedAt: integer({ mode: 'timestamp' })
     .notNull()
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`)
 });
 export const usersRelations = relations(usersTable, ({ many }) => ({
   posts: many(postsTable),

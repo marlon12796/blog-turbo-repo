@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { SeedModule } from './seed/seed.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { PostsModule } from './posts/posts.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -21,7 +22,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       isGlobal: true
     }),
     SeedModule,
-    DbModule
+    DbModule,
+    PostsModule
   ],
   controllers: [AppController],
   providers: [AppService]
