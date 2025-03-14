@@ -9,6 +9,7 @@ import { join } from 'path';
 import { SeedModule } from './seed/seed.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { PostsModule } from './posts/posts.module';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -23,7 +24,8 @@ import { PostsModule } from './posts/posts.module';
     }),
     SeedModule,
     DbModule,
-    PostsModule
+    PostsModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService]

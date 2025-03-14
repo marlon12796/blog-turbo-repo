@@ -2,6 +2,7 @@ import { relations, sql } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { usersTable } from './users.schema';
 import { postTagsTable } from './posts-tags.schema';
+import { commentsTable } from './comment.schema';
 
 export const postsTable = sqliteTable('posts', {
   id: int().primaryKey({ autoIncrement: true }),
@@ -18,5 +19,6 @@ export const postsTable = sqliteTable('posts', {
     .$onUpdate(() => sql`(unixepoch())`)
 });
 export const postsRelations = relations(postsTable, ({ many }) => ({
-  postsToTags: many(postTagsTable)
+  postsToTags: many(postTagsTable),
+  comments: many(commentsTable)
 }));

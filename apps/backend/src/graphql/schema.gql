@@ -34,10 +34,35 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type User {
+  """Identificador único del usuario"""
+  id: Int!
+
+  """Nombre completo del usuario"""
+  name: String!
+
+  """Correo electrónico del usuario"""
+  email: String!
+
+  """Biografía o descripción personal del usuario"""
+  bio: String
+
+  """URL de la foto de perfil del usuario"""
+  avatar: String
+
+  """Fecha en que se creó el usuario"""
+  createdAt: DateTime!
+
+  """Fecha de la última actualización del usuario"""
+  updatedAt: DateTime!
+}
+
 type Query {
   hello: String!
   posts: [Post!]!
   post(id: Int!): Post!
+  users: [User!]!
+  user(id: Int!): User!
 }
 
 type Mutation {
@@ -46,6 +71,9 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): Post!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
 }
 
 input CreatePostInput {
@@ -54,6 +82,17 @@ input CreatePostInput {
 }
 
 input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

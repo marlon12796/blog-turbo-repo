@@ -8,6 +8,8 @@ export const usersTable = sqliteTable('users', {
   id: int().primaryKey({ autoIncrement: true }),
   name: text().notNull(),
   email: text().notNull().unique(),
+  bio: text(),
+  avatar: text(),
   password: text().notNull(),
   createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
   updatedAt: integer({ mode: 'timestamp' })
