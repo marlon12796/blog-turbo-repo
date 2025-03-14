@@ -55,6 +55,27 @@ type User {
 
   """Fecha de la última actualización del usuario"""
   updatedAt: DateTime!
+  posts: [Post!]!
+}
+
+type Comment {
+  """Identificador único del comentario"""
+  id: Int!
+
+  """Contenido del comentario"""
+  content: String!
+
+  """Publicación a la que pertenece el comentario"""
+  post: Post!
+
+  """Autor del comentario"""
+  author: User!
+
+  """Fecha en que se creó el comentario"""
+  createdAt: DateTime!
+
+  """Fecha de la última actualización del comentario"""
+  updatedAt: DateTime!
 }
 
 type Query {
@@ -63,6 +84,8 @@ type Query {
   post(id: Int!): Post!
   users: [User!]!
   user(id: Int!): User!
+  comments: [Comment!]!
+  comment(id: Int!): Comment!
 }
 
 type Mutation {
@@ -74,6 +97,9 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: Int!): Comment!
 }
 
 input CreatePostInput {
@@ -93,6 +119,17 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCommentInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Post } from 'src/posts/entities/post.entity';
 
 @ObjectType()
 export class User {
@@ -12,14 +13,20 @@ export class User {
   email: string;
 
   @Field(() => String, { nullable: true, description: 'Biografía o descripción personal del usuario' })
-  bio: string;
+  bio?: string;
 
   @Field(() => String, { nullable: true, description: 'URL de la foto de perfil del usuario' })
-  avatar: string;
+  avatar?: string;
 
   @Field(() => Date, { description: 'Fecha en que se creó el usuario' })
   createdAt: Date;
 
   @Field(() => Date, { description: 'Fecha de la última actualización del usuario' })
   updatedAt: Date;
+
+  @Field(() => [Post])
+  posts: Post[];
+
+  @Field(() => [Comment])
+  comments: Comment[];
 }
