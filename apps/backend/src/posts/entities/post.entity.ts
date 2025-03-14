@@ -1,4 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { CommentWithoutPost } from 'src/comments/entities/comment.entity';
+import { Tag, TagWithoutPost } from 'src/tags/entities/tag.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @ObjectType({ description: 'Representa una publicación en la plataforma.' })
 export class Post {
@@ -12,10 +15,7 @@ export class Post {
   content: string;
 
   @Field(() => String, { nullable: true, description: 'URL de la imagen en miniatura del post.' })
-  thumbnail: string;
-
-  @Field(() => Int, { description: 'ID del autor que creó el post.' })
-  authorId: number;
+  thumbnail?: string;
 
   @Field(() => Boolean, { description: 'Indica si la publicación está publicada o en borrador.' })
   published: boolean;
@@ -25,4 +25,13 @@ export class Post {
 
   @Field(() => Date, { description: 'Última fecha de actualización del post.' })
   updatedAt: Date;
+
+  @Field(() => [Tag])
+  tags: TagWithoutPost[];
+
+  @Field(() => User, { description: 'Usuario que creó el post.' })
+  author: User;
+
+  @Field(() => [CommentWithoutPost], { description: 'Comentarios asociados al post.' })
+  comments: CommentWithoutPost[];
 }

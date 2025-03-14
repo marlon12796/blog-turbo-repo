@@ -12,6 +12,7 @@ import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CommentsModule } from './comments/comments.module';
 import { TagsModule } from './tags/tags.module';
+import { LikesModule } from './likes/likes.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -29,7 +30,8 @@ import { TagsModule } from './tags/tags.module';
     PostsModule,
     UsersModule,
     CommentsModule,
-    TagsModule
+    TagsModule,
+    LikesModule
   ],
   controllers: [AppController],
   providers: [AppService]
