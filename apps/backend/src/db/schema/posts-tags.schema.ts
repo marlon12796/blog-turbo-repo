@@ -12,17 +12,17 @@ export const postTagsTable = sqliteTable(
       .references(() => postsTable.id),
     tagId: int()
       .notNull()
-      .references(() => tagsTable.id),
+      .references(() => tagsTable.id)
   },
-  (t) => [unique('unique_post_tag').on(t.postId, t.tagId)],
+  (t) => [unique('unique_post_tag').on(t.postId, t.tagId)]
 );
 export const postTagsRelations = relations(postTagsTable, ({ one }) => ({
   post: one(postsTable, {
     fields: [postTagsTable.postId],
-    references: [postsTable.id],
+    references: [postsTable.id]
   }),
   tag: one(tagsTable, {
     fields: [postTagsTable.tagId],
-    references: [tagsTable.id],
-  }),
+    references: [tagsTable.id]
+  })
 }));

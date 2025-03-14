@@ -10,18 +10,18 @@ export const likesTable = sqliteTable(
     id: int().primaryKey({ autoIncrement: true }),
     postId: int().references(() => postsTable.id),
     userId: int().references(() => usersTable.id),
-    createdAt: text().default(sql`CURRENT_TIMESTAMP`),
+    createdAt: text().default(sql`CURRENT_TIMESTAMP`)
   },
-  (t) => [unique('unique_like').on(t.userId, t.postId)],
+  (t) => [unique('unique_like').on(t.userId, t.postId)]
 );
 
 export const likesRelations = relations(likesTable, ({ one }) => ({
   user: one(usersTable, {
     fields: [likesTable.userId],
-    references: [usersTable.id],
+    references: [usersTable.id]
   }),
   likedPost: one(postsTable, {
     fields: [likesTable.postId],
-    references: [postsTable.id],
-  }),
+    references: [postsTable.id]
+  })
 }));

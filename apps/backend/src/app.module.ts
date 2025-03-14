@@ -7,20 +7,23 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { SeedModule } from './seed/seed.module';
-// import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
+      playground: false,
+      introspection: true,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql')
     }),
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: true
     }),
     SeedModule,
-    DbModule,
+    DbModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

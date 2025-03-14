@@ -16,9 +16,9 @@ export const DB = Symbol('DB-CONNECTION');
         const sqlite = new Database(url);
         const db = drizzle({ client: sqlite, schema });
         return db;
-      },
-    },
+      }
+    }
   ],
-  exports: [DB],
+  exports: [DB]
 })
 export class DbModule {}

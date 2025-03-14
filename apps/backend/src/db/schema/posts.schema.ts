@@ -15,8 +15,8 @@ export const postsTable = sqliteTable('posts', {
   updatedAt: text()
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
 });
 export const postsRelations = relations(postsTable, ({ many }) => ({
-  postsToTags: many(postTagsTable),
+  postsToTags: many(postTagsTable)
 }));

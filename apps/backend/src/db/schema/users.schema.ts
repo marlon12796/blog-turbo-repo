@@ -13,10 +13,10 @@ export const usersTable = sqliteTable('users', {
   updatedAt: text()
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
 });
 export const usersRelations = relations(usersTable, ({ many }) => ({
   posts: many(postsTable),
   likes: many(likesTable),
-  comments: many(commentsTable),
+  comments: many(commentsTable)
 }));

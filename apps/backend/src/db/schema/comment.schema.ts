@@ -12,15 +12,15 @@ export const commentsTable = sqliteTable('comments', {
   updatedAt: text()
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`)
 });
 export const commentsRelations = relations(commentsTable, ({ one }) => ({
   author: one(usersTable, {
     fields: [commentsTable.authorId],
-    references: [usersTable.id],
+    references: [usersTable.id]
   }),
   post: one(postsTable, {
     fields: [commentsTable.postId],
-    references: [postsTable.id],
-  }),
+    references: [postsTable.id]
+  })
 }));

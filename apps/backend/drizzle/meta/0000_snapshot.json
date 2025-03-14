@@ -58,12 +58,8 @@
           "name": "comments_postId_posts_id_fk",
           "tableFrom": "comments",
           "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["postId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -71,12 +67,8 @@
           "name": "comments_authorId_users_id_fk",
           "tableFrom": "comments",
           "tableTo": "users",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -121,10 +113,7 @@
       "indexes": {
         "unique_like": {
           "name": "unique_like",
-          "columns": [
-            "userId",
-            "postId"
-          ],
+          "columns": ["userId", "postId"],
           "isUnique": true
         }
       },
@@ -133,12 +122,8 @@
           "name": "likes_postId_posts_id_fk",
           "tableFrom": "likes",
           "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["postId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -146,12 +131,8 @@
           "name": "likes_userId_users_id_fk",
           "tableFrom": "likes",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -181,10 +162,7 @@
       "indexes": {
         "unique_post_tag": {
           "name": "unique_post_tag",
-          "columns": [
-            "postId",
-            "tagId"
-          ],
+          "columns": ["postId", "tagId"],
           "isUnique": true
         }
       },
@@ -193,12 +171,8 @@
           "name": "post_tags_postId_posts_id_fk",
           "tableFrom": "post_tags",
           "tableTo": "posts",
-          "columnsFrom": [
-            "postId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["postId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -206,12 +180,8 @@
           "name": "post_tags_tagId_tags_id_fk",
           "tableFrom": "post_tags",
           "tableTo": "tags",
-          "columnsFrom": [
-            "tagId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tagId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -292,9 +262,7 @@
       "indexes": {
         "posts_slug_unique": {
           "name": "posts_slug_unique",
-          "columns": [
-            "slug"
-          ],
+          "columns": ["slug"],
           "isUnique": true
         }
       },
@@ -303,12 +271,8 @@
           "name": "posts_authorId_users_id_fk",
           "tableFrom": "posts",
           "tableTo": "users",
-          "columnsFrom": [
-            "authorId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["authorId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -338,9 +302,7 @@
       "indexes": {
         "tags_name_unique": {
           "name": "tags_name_unique",
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "isUnique": true
         }
       },
@@ -400,9 +362,7 @@
       "indexes": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         }
       },
