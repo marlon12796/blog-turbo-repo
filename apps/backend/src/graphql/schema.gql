@@ -170,14 +170,39 @@ input UpdatePostInput {
   id: Int!
 }
 
+"""Datos requeridos para crear un nuevo usuario"""
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Nombre del usuario"""
+  name: String!
+
+  """Contraseña del usuario (mínimo 6 caracteres)"""
+  password: String!
+
+  """Correo electrónico del usuario"""
+  email: String!
+
+  """Biografía del usuario (opcional)"""
+  bio: String
+
+  """URL del avatar del usuario (opcional)"""
+  avatar: String
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """Nombre del usuario"""
+  name: String
+
+  """Contraseña del usuario (mínimo 6 caracteres)"""
+  password: String
+
+  """Correo electrónico del usuario"""
+  email: String
+
+  """Biografía del usuario (opcional)"""
+  bio: String
+
+  """URL del avatar del usuario (opcional)"""
+  avatar: String
   id: Int!
 }
 

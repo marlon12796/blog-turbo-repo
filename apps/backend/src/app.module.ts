@@ -13,6 +13,7 @@ import { UsersModule } from './users/users.module';
 import { CommentsModule } from './comments/comments.module';
 import { TagsModule } from './tags/tags.module';
 import { LikesModule } from './likes/likes.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -23,7 +24,8 @@ import { LikesModule } from './likes/likes.module';
       autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql')
     }),
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
+      expandVariables: true
     }),
     SeedModule,
     DbModule,
@@ -31,7 +33,8 @@ import { LikesModule } from './likes/likes.module';
     UsersModule,
     CommentsModule,
     TagsModule,
-    LikesModule
+    LikesModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService]
