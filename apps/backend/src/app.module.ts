@@ -11,6 +11,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CommentsModule } from './comments/comments.module';
+import { TagsModule } from './tags/tags.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -27,7 +28,8 @@ import { CommentsModule } from './comments/comments.module';
     DbModule,
     PostsModule,
     UsersModule,
-    CommentsModule
+    CommentsModule,
+    TagsModule
   ],
   controllers: [AppController],
   providers: [AppService]
