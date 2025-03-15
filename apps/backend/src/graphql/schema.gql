@@ -125,12 +125,25 @@ type Like {
   createdAt: DateTime!
 }
 
+"""Respuesta de autenticación con datos del usuario y token de acceso"""
+type AuthPayload {
+  """Identificador único del usuario autenticado"""
+  id: Int!
+
+  """Nombre del usuario"""
+  name: String!
+
+  """URL del avatar del usuario (opcional)"""
+  avatar: String
+
+  """Token de acceso para autenticación"""
+  accessToken: String!
+}
+
 type Query {
   hello: String!
   posts: [Post!]!
   post(id: Int!): Post!
-  users: [User!]!
-  user(id: Int!): User!
   comments: [Comment!]!
   comment(id: Int!): Comment!
   tags: [Tag!]!
@@ -157,6 +170,7 @@ type Mutation {
   createLike(createLikeInput: CreateLikeInput!): Like!
   updateLike(updateLikeInput: UpdateLikeInput!): Like!
   removeLike(id: Int!): Like!
+  signIn(signInInput: SignInInput!): AuthPayload!
 }
 
 input CreatePostInput {
@@ -237,4 +251,9 @@ input UpdateLikeInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
 }

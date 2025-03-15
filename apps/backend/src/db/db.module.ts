@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import dbConfig from 'src/config/db.config';
+import dbConfig from 'src/common/config/db.config';
 import * as Database from 'better-sqlite3';
 import * as schema from './schema/db.schema';
 import { drizzle } from 'drizzle-orm/better-sqlite3';

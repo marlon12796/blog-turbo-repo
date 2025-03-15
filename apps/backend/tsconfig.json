@@ -16,6 +16,16 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/posts/*": ["./src/posts/*"],
+      "@/common/*": ["./src/common/*"],
+      "@/likes/*": ["./src/likes/*"],
+      "@/comments/*": ["./src/comments/*"],
+      "@/auth/*": ["./src/auth/*"],
+      "@/tags/*": ["./src/tags/*"],
+      "@/db/*": ["./src/db/*"],
+      "@/users/*": ["./src/users/*"]
+    }
   }
 }

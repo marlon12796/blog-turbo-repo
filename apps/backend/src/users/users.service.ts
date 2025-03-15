@@ -1,19 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { DB } from 'src/db/db.module';
+import { DBSetup } from 'src/db/types/db.types';
+import { hash } from 'argon2';
+import { usersTable } from 'src/db/schema/users.schema';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(@Inject(DB) private readonly db: DBSetup) {}
+  async create(createUserInput: CreateUserInput) {
+    const { password, ...user } = createUserInput;
+    const hashedPassword = await hash(password);
+    await this.db
+      .insert(usersTable)
+      .values({ ...user, password: hashedPassword })
+      .onConflictDoNothing({ target: usersTable.email });
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
+  async findOneByEmail(email: string) {
+    const [user] = await this.db.select().from(usersTable).where(eq(usersTable.email, email));
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+    if (!user) throw new NotFoundException(`No se encontró un usuario con el email: ${email}`);
+
+    return user;
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {
