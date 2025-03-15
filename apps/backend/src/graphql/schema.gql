@@ -138,10 +138,12 @@ type AuthPayload {
 
   """Token de acceso para autenticación"""
   accessToken: String!
+
+  """Email del usuario"""
+  email: String!
 }
 
 type Query {
-  hello: String!
   posts: [Post!]!
   post(id: Int!): Post!
   comments: [Comment!]!
@@ -188,8 +190,6 @@ input UpdatePostInput {
 input CreateUserInput {
   """Nombre del usuario"""
   name: String!
-
-  """Contraseña del usuario (mínimo 6 caracteres)"""
   password: String!
 
   """Correo electrónico del usuario"""
@@ -205,8 +205,6 @@ input CreateUserInput {
 input UpdateUserInput {
   """Nombre del usuario"""
   name: String
-
-  """Contraseña del usuario (mínimo 6 caracteres)"""
   password: String
 
   """Correo electrónico del usuario"""
@@ -255,5 +253,7 @@ input UpdateLikeInput {
 
 input SignInInput {
   email: String!
+
+  """Contraseña del usuario (mínimo 6 caracteres)"""
   password: String!
 }

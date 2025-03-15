@@ -6,9 +6,10 @@ import { UsersModule } from 'src/users/users.module';
 import { UsersService } from 'src/users/users.service';
 import jwtConfig from '@/common/config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   providers: [AuthResolver, AuthService, UsersService],
-  imports: [DbModule, UsersModule, JwtModule.registerAsync(jwtConfig.asProvider())]
+  imports: [DbModule, UsersModule, JwtModule.registerAsync(jwtConfig.asProvider()), ConfigModule.forFeature(jwtConfig)]
 })
 export class AuthModule {}

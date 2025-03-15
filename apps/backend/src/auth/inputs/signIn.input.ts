@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
 @InputType()
 export class SignInInput {
@@ -7,19 +7,8 @@ export class SignInInput {
   @IsEmail({}, { message: 'El email debe tener un formato válido' })
   email: string;
 
-  @Field()
-  @IsString({ message: 'La contraseña debe ser una cadena de texto' })
-  @IsStrongPassword(
-    {
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1
-    },
-    {
-      message: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial'
-    }
-  )
+  @Field({ description: 'Contraseña del usuario (mínimo 6 caracteres)' })
+  @IsString()
+  @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
   password: string;
 }

@@ -1,7 +1,7 @@
-import { Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Mutation, Resolver } from '@nestjs/graphql';
 import { SeedService } from './seed.service';
 
-@Resolver('Seed')
+@Resolver()
 export class SeedResolver {
   constructor(private readonly seedService: SeedService) {}
   @Mutation(() => Boolean, {
@@ -10,9 +10,5 @@ export class SeedResolver {
   })
   async seedDatabase() {
     return this.seedService.executeSeed();
-  }
-  @Query(() => String)
-  hello() {
-    return '¡Hola, GraphQL!';
   }
 }

@@ -13,4 +13,7 @@ export class AuthPayload {
 
   @Field({ description: 'Token de acceso para autenticación' })
   accessToken: string;
+
+  @Field({ description: 'Email del usuario' })
+  email: string;
 }
