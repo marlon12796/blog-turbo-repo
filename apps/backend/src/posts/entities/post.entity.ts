@@ -26,6 +26,8 @@ export class Post {
   @Field(() => Date, { description: 'Última fecha de actualización del post.' })
   updatedAt: Date;
 
+  @Field(() => String, { description: 'Titulo url Publicacion' })
+  slug: string;
   @Field(() => [Tag])
   tags: TagWithoutPost[];
 

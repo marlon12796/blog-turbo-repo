@@ -5,7 +5,7 @@ import MobileNavbar from './MobileNavbar';
 type Props = PropsWithChildren;
 const NavbarContainer = (props: Props) => {
   return (
-    <header className="sticky top-0">
+    <header className="sticky top-0 z-[100]">
       <DesktopNavbar>{props.children}</DesktopNavbar>
       <MobileNavbar>{props.children}</MobileNavbar>
     </header>

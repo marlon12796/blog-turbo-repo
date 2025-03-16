@@ -102,6 +102,9 @@ type Post {
 
   """Última fecha de actualización del post."""
   updatedAt: DateTime!
+
+  """Titulo url Publicacion"""
+  slug: String!
   tags: [Tag!]!
 
   """Usuario que creó el post."""
