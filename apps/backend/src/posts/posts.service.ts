@@ -4,6 +4,8 @@ import { UpdatePostInput } from './dto/update-post.input';
 import { DBSetup } from 'src/db/types/db.types';
 import { DB } from 'src/db/db.module';
 import { postsTable } from 'src/db/schema/posts.schema';
+import { PaginitionArgs } from '@/common/dto/args/pagination.args';
+import { count } from 'drizzle-orm';
 
 @Injectable()
 export class PostsService {
@@ -12,8 +14,9 @@ export class PostsService {
     return 'all posts';
   }
 
-  async findAll() {
-    const posts = await this.db.select().from(postsTable);
+  async findAll(paginationArgs: PaginitionArgs) {
+    const { offset, limit } = paginationArgs;
+    const posts = await this.db.select().from(postsTable).offset(offset).limit(limit);
     return posts;
   }
 
@@ -27,5 +30,10 @@ export class PostsService {
 
   remove(id: number) {
     return `This action removes a #${id} post`;
+  }
+  async countTotal() {
+    const [numTotal] = await this.db.select({ total: count(postsTable.id) }).from(postsTable);
+
+    return numTotal.total;
   }
 }

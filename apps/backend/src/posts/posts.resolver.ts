@@ -3,6 +3,7 @@ import { PostsService } from './posts.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
+import { PaginitionArgs } from '@/common/dto/args/pagination.args';
 // import { UseGuards } from '@nestjs/common';
 // import { JwtAuthGuard } from '@/auth/guards/jwt.guard';
 
@@ -17,10 +18,13 @@ export class PostsResolver {
 
   // @UseGuards(JwtAuthGuard)
   @Query(() => [Post], { name: 'posts' })
-  findAll() {
-    return this.postsService.findAll();
+  findAll(@Args() paginationArgs: PaginitionArgs) {
+    return this.postsService.findAll(paginationArgs);
   }
-
+  @Query(() => Int, { name: 'postCount' })
+  count() {
+    return this.postsService.countTotal();
+  }
   @Query(() => Post, { name: 'post' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.postsService.findOne(id);

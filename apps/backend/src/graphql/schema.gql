@@ -147,7 +147,8 @@ type AuthPayload {
 }
 
 type Query {
-  posts: [Post!]!
+  posts(offset: Int = 0, limit: Int = 10): [Post!]!
+  postCount: Int!
   post(id: Int!): Post!
   comments: [Comment!]!
   comment(id: Int!): Comment!
