@@ -1,4 +1,5 @@
 import Hero from '@/components/Hero';
+import Pagination from '@/components/Pagination';
 import Posts from '@/components/Posts';
 import { CONFIG } from '@/constants';
 import { fetchUserPosts } from '@/lib/actions/posts';
@@ -12,11 +13,13 @@ const Home = async ({ searchParams }: HomeTypes) => {
   const params = await searchParams;
   const limit = parseInt(params?.limit ?? CONFIG.PAGE_SIZE.toString());
   const page = parseInt(params?.page ?? '1');
-  const { posts } = await fetchUserPosts({ page, pageSize: limit });
+  const { posts, totalPosts } = await fetchUserPosts({ page, pageSize: limit });
+  const totalPages = Math.floor(totalPosts / limit);
   return (
     <main>
       <Hero />
       <Posts posts={posts} />
+      <Pagination currentPage={page} totalPages={totalPages} />
     </main>
   );
 };

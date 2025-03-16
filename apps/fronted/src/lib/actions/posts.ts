@@ -8,10 +8,10 @@ export async function fetchUserPosts({ page = 1, pageSize = 10 }: { page?: numbe
   const { limit, offset } = transformLimitOffset({ page, pageSize });
 
   const result = await getClient().query(getPostsQuery, { limit, offset });
-  const data: { posts: Post[] } = result.data;
+  const data: { posts: Post[]; postCount: number } = result.data;
 
   return {
-    posts: data.posts
-    // totalPosts: data.userPostCount as number
+    posts: data.posts,
+    totalPosts: data.postCount
   };
 }
