@@ -17,8 +17,9 @@
     "@urql/next": "^1.1.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dompurify": "^3.2.4",
     "graphql": "^16.10.0",
-    "isomorphic-dompurify": "^2.22.0",
+    "jsdom": "^26.0.0",
     "lucide-react": "^0.482.0",
     "next": "15.2.2",
     "react": "^19.0.0",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
