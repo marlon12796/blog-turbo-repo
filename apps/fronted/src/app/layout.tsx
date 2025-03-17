@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[auto_1fr] min-h-dvh antialiased`}>
         <NavbarContainer>
           <Navbar />
         </NavbarContainer>
