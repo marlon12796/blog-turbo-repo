@@ -1,6 +1,5 @@
 'use client';
 import { useActionState } from 'react';
-
 import { Label } from '@/components/ui/Label';
 import { Input } from '@/components/ui/Input';
 import SubmitButton from './SubmitButton';
@@ -11,7 +10,6 @@ const SignUpForm = () => {
     data: {},
     errors: {}
   });
-  // console.log(state.data.email)
   return (
     <form action={formAction} className="flex flex-col gap-6 w-full px-6">
       {state.errors._form && <p className="text-red-500 text-sm">{state.errors._form[0]}</p>}
