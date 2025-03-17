@@ -8,5 +8,6 @@ export type FormState = {
     name?: string[];
     email?: string[];
     password?: string[];
+    _form?: string[];
   };
 };

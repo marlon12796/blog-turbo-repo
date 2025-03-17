@@ -37,3 +37,13 @@ export const getPostByIdQuery = gql`
     }
   }
 `;
+export const createUserMutation = gql`
+  mutation Mutation($createUserInput: CreateUserInput!) {
+    createUser(createUserInput: $createUserInput) {
+      avatar
+      bio
+      createdAt
+      email
+    }
+  }
+`;
