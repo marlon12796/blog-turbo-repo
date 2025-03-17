@@ -23,8 +23,6 @@ type User {
 
   """Fecha de la última actualización del usuario"""
   updatedAt: DateTime!
-  posts: [Post!]!
-  comments: [Comment!]!
 }
 
 """

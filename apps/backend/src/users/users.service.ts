@@ -13,10 +13,13 @@ export class UsersService {
   async create(createUserInput: CreateUserInput) {
     const { password, ...user } = createUserInput;
     const hashedPassword = await hash(password);
-    await this.db
+    const [userCreated] = await this.db
       .insert(usersTable)
       .values({ ...user, password: hashedPassword })
-      .onConflictDoNothing({ target: usersTable.email });
+      .onConflictDoNothing({ target: usersTable.email })
+      .returning();
+
+    return userCreated;
   }
 
   async findOneByEmail(email: string) {

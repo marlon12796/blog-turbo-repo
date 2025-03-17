@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Comment } from 'src/comments/entities/comment.entity';
-import { Post } from 'src/posts/entities/post.entity';
 
+import { Post } from 'src/posts/entities/post.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 @ObjectType()
 export class User {
   @Field(() => Int, { description: 'Identificador único del usuario' })
@@ -24,10 +24,13 @@ export class User {
 
   @Field(() => Date, { description: 'Fecha de la última actualización del usuario' })
   updatedAt: Date;
+}
 
-  @Field(() => [Post])
+@ObjectType({ description: 'Usuario con relaciones a posts y comentarios' })
+export class UserWithRelations extends User {
+  @Field(() => [Post], { description: 'Publicaciones creadas por el usuario' })
   posts: Post[];
 
-  @Field(() => [Comment])
+  @Field(() => [Comment], { description: 'Comentarios realizados por el usuario' })
   comments: Comment[];
 }
