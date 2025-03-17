@@ -29,7 +29,7 @@ export class SeedService {
         slug: this.generateSlug(faker.lorem.sentence()),
         title: faker.lorem.sentence(),
         content: faker.lorem.paragraphs(3),
-        thumbnail: faker.image.urlLoremFlickr({ height: 240, width: 320 }),
+        thumbnail: faker.image.urlPicsumPhotos({ height: 320, width: 320, blur: 0 }),
         authorId: faker.number.int({ min: 1, max: 10 }),
         published: true
       };

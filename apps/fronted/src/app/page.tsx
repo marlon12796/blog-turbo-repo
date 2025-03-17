@@ -1,5 +1,4 @@
 import Hero from '@/components/Hero';
-import Pagination from '@/components/Pagination';
 import Posts from '@/components/Posts';
 import { CONFIG } from '@/constants';
 import { fetchUserPosts } from '@/lib/actions/posts';
@@ -18,8 +17,7 @@ const Home = async ({ searchParams }: HomeTypes) => {
   return (
     <main>
       <Hero />
-      <Posts posts={posts} />
-      <Pagination currentPage={page} totalPages={totalPages} />
+      <Posts posts={posts} currentPage={page} totalPages={totalPages} />
     </main>
   );
 };

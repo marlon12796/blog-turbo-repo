@@ -15,3 +15,25 @@ export const getPostsQuery = gql`
     postCount
   }
 `;
+
+export const getPostByIdQuery = gql`
+  query Post($postId: Int!) {
+    post(id: $postId) {
+      author {
+        email
+        name
+      }
+      content
+      createdAt
+      id
+      title
+      thumbnail
+      published
+      slug
+      tags {
+        name
+        id
+      }
+    }
+  }
+`;

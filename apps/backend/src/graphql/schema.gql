@@ -148,8 +148,8 @@ type AuthPayload {
 
 type Query {
   posts(offset: Int = 0, limit: Int = 10): [Post!]!
-  postCount: Int!
   post(id: Int!): Post!
+  postCount: Int!
   comments: [Comment!]!
   comment(id: Int!): Comment!
   tags: [Tag!]!

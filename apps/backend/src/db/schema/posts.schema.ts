@@ -18,7 +18,11 @@ export const postsTable = sqliteTable('posts', {
     .default(sql`(unixepoch())`)
     .$onUpdate(() => sql`(unixepoch())`)
 });
-export const postsRelations = relations(postsTable, ({ many }) => ({
+export const postsRelations = relations(postsTable, ({ many, one }) => ({
   postsToTags: many(postTagsTable),
-  comments: many(commentsTable)
+  comments: many(commentsTable),
+  author: one(usersTable, {
+    fields: [postsTable.authorId],
+    references: [usersTable.id]
+  })
 }));
