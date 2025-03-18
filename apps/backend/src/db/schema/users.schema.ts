@@ -10,7 +10,10 @@ export const usersTable = sqliteTable('users', {
   email: text().notNull().unique(),
   bio: text(),
   avatar: text(),
-  password: text().notNull(),
+  authType: text({ enum: ['GOOGLE', 'LOCAL'] })
+    .default('LOCAL')
+    .notNull(),
+  password: text(),
   createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
   updatedAt: integer({ mode: 'timestamp' })
     .notNull()

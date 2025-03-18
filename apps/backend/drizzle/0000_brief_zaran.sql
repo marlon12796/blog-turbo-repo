@@ -51,7 +51,10 @@ CREATE TABLE `users` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
 	`email` text NOT NULL,
-	`password` text NOT NULL,
+	`bio` text,
+	`avatar` text,
+	`authType` text DEFAULT 'LOCAL' NOT NULL,
+	`password` text,
 	`createdAt` integer DEFAULT (unixepoch()),
 	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL
 );
