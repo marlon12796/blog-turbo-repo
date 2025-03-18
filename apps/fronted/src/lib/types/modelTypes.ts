@@ -39,3 +39,13 @@ export type CommentEntity = {
   createdAt: Date;
   updatedAt: Date;
 };
+export interface SignIn {
+  signIn: {
+    avatar: string;
+    email: string;
+    id: number;
+    name: string;
+    accessToken: string;
+    __typename: string;
+  };
+}

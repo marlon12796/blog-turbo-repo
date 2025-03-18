@@ -26,8 +26,7 @@ export const signUp = async (prevState: unknown, formData: FormData): Promise<Fo
         }
       };
     }
-  } catch (error) {
-    console.log('error', error);
+  } catch {
     return {
       data,
       errors: {
