@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 export type SessionUser = {
   id: number;
   name: string;
-  email: string;
+  avatar: string;
 };
 
 export type Session = {
@@ -50,7 +50,7 @@ export async function getSession() {
     const { payload } = await jwtVerify(cookie, encodedKey, {
       algorithms: ['HS256']
     });
-    return payload as Session;
+    return payload as Session
   } catch {
     deleteSession(); // 🔴 Elimina la sesión inválida
     redirect('/auth/signin');

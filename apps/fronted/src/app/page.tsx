@@ -17,7 +17,7 @@ const Home = async ({ searchParams }: HomeTypes) => {
   return (
     <main>
       <Hero />
-      <Posts posts={posts} currentPage={page} totalPages={totalPages} />
+      <Posts posts={posts ?? []} currentPage={page} totalPages={totalPages} />
     </main>
   );
 };

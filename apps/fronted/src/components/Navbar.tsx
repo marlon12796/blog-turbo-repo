@@ -1,8 +1,11 @@
+import { getSession } from '@/lib/helpers/session';
 import Link from 'next/link';
+import SignInPanel from './SignInPanel';
+import Profile from './Profile';
 //
-// type Props = {};
 const Navbar = async () => {
-  // const session = await getSession();
+  const session = await getSession();
+  console.log(session);
   return (
     <>
       <h1 className="text-2xl font-bold p-2">My Modern Blog</h1>
@@ -16,7 +19,7 @@ const Navbar = async () => {
         <Link href="#contact" className="">
           Contact
         </Link>
-        {/* {session && session.user ? <Profile user={session.user} /> : <SignInPanel />} */}
+        {session && session.user ? <Profile session={session} /> : <SignInPanel />}
       </div>
     </>
   );

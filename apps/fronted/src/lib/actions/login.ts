@@ -32,7 +32,7 @@ export const login = async (prevState: unknown, formData: FormData): Promise<For
     const token: SignIn = result.data;
     await createSession({
       accessToken: token.signIn.accessToken,
-      user: { email: token.signIn.email, id: token.signIn.id, name: token.signIn.name }
+      user: { id: token.signIn.id, name: token.signIn.name, avatar: token.signIn.avatar }
     });
   } catch (err) {
     console.log(err);
