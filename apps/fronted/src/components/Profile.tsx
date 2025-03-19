@@ -15,7 +15,7 @@ const Profile = ({ session }: { session: Session }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="size-10 rounded-full">
+        <Avatar className="size-10 rounded-full border-2 border-skyblue">
           <AvatarImage src={session.user.avatar} alt={session.user.name} />
           <AvatarFallback className="rounded-lg">CN</AvatarFallback>
         </Avatar>

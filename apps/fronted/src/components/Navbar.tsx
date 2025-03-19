@@ -4,7 +4,6 @@ import SignInPanel from './SignInPanel';
 import Profile from './Profile';
 const Navbar = async () => {
   const session = await getSession();
-  console.log(session);
   return (
     <>
       <h1 className="text-2xl font-bold p-2">My Modern Blog</h1>

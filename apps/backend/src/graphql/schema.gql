@@ -148,8 +148,7 @@ type Query {
   posts(offset: Int = 0, limit: Int = 10): [Post!]!
   post(id: Int!): Post!
   postCount: Int!
-  comments: [Comment!]!
-  comment(id: Int!): Comment!
+  comments(postId: Int!, offset: Int = 0, limit: Int = 10): [Comment!]!
   tags: [Tag!]!
   tag(id: Int!): Tag!
   likes: [Like!]!

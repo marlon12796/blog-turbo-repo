@@ -3,6 +3,8 @@ import { CommentsService } from './comments.service';
 import { Comment } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
+import { ParseIntPipe } from '@nestjs/common';
+import { PaginitionArgs } from '@/common/dto/args/pagination.args';
 
 @Resolver(() => Comment)
 export class CommentsResolver {
@@ -14,13 +16,8 @@ export class CommentsResolver {
   }
 
   @Query(() => [Comment], { name: 'comments' })
-  findAll() {
-    return this.commentsService.findAll();
-  }
-
-  @Query(() => Comment, { name: 'comment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.commentsService.findOne(id);
+  findAllByPostId(@Args('postId', { type: () => Int }, ParseIntPipe) postId: number, @Args() paginationArgs: PaginitionArgs) {
+    return this.commentsService.findAllByPostId(postId, paginationArgs);
   }
 
   @Mutation(() => Comment)
