@@ -59,3 +59,19 @@ export const signInMutation = gql`
     }
   }
 `;
+
+export const getCommentsByPostId = gql`
+  query Comments($postId: Int!, $offset: Int, $limit: Int) {
+    comments(postId: $postId, offset: $offset, limit: $limit) {
+      content
+      createdAt
+      author {
+        bio
+        avatar
+        createdAt
+      }
+      id
+      updatedAt
+    }
+  }
+`;
