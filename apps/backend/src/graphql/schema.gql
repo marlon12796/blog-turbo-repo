@@ -149,6 +149,7 @@ type Query {
   post(id: Int!): Post!
   postCount: Int!
   comments(postId: Int!, offset: Int = 0, limit: Int = 10): [Comment!]!
+  commentCount(postId: Int!): Int!
   tags: [Tag!]!
   tag(id: Int!): Tag!
   likes: [Like!]!
@@ -166,7 +167,6 @@ type Mutation {
   removeUser(id: Int!): User!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
-  removeComment(id: Int!): Comment!
   createTag(createTagInput: CreateTagInput!): Tag!
   updateTag(updateTagInput: UpdateTagInput!): Tag!
   removeTag(id: Int!): Tag!

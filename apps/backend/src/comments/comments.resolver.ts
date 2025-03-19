@@ -20,13 +20,13 @@ export class CommentsResolver {
     return this.commentsService.findAllByPostId(postId, paginationArgs);
   }
 
-  @Mutation(() => Comment)
-  updateComment(@Args('updateCommentInput') updateCommentInput: UpdateCommentInput) {
-    return this.commentsService.update(updateCommentInput.id, updateCommentInput);
+  @Query(() => Int, { name: 'commentCount' })
+  count(@Args('postId', { type: () => Int }, ParseIntPipe) postId: number) {
+    return this.commentsService.count(postId);
   }
 
   @Mutation(() => Comment)
-  removeComment(@Args('id', { type: () => Int }) id: number) {
-    return this.commentsService.remove(id);
+  updateComment(@Args('updateCommentInput') updateCommentInput: UpdateCommentInput) {
+    return this.commentsService.update(updateCommentInput.id, updateCommentInput);
   }
 }

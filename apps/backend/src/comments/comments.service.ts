@@ -5,7 +5,7 @@ import { PaginitionArgs } from '@/common/dto/args/pagination.args';
 import { DB } from '@/db/db.module';
 import { DBSetup } from '@/db/types/db.types';
 import { commentsTable } from '@/db/schema/comment.schema';
-import { desc, eq } from 'drizzle-orm';
+import { count, desc, eq } from 'drizzle-orm';
 import { usersTable } from '@/db/schema/users.schema';
 
 @Injectable()
@@ -43,11 +43,15 @@ export class CommentsService {
     return commentsByPost;
   }
 
-  update(id: number, updateCommentInput: UpdateCommentInput) {
-    return `This action updates a #${id} comment`;
+  async count(postId: number) {
+    const [totalCountComments] = await this.db
+      .select({ totalPosts: count(commentsTable.id) })
+      .from(commentsTable)
+      .where(eq(commentsTable.postId, postId));
+    return totalCountComments.totalPosts;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  update(id: number, updateCommentInput: UpdateCommentInput) {
+    return `This action updates a #${id} comment`;
   }
 }
