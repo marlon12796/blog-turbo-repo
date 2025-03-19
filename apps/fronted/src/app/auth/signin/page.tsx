@@ -10,7 +10,7 @@ const SignInPage = () => {
       <SignInForm />
       <div className="flex  gap-4 items-center mt-2">
         <Link href={'/auth/forgot'}>Forgot Your Password?</Link>
-        <Link href={`${CONFIG.BACKEND_URL}/auth/google/login`} className={buttonVariants({ variant: 'outline' })}>
+        <Link href={`${CONFIG.BASE_BACKEND_URL}/auth/google/login`} className={buttonVariants({ variant: 'outline' })}>
           Sign in with Google
         </Link>
       </div>

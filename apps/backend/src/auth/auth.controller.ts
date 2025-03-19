@@ -5,6 +5,7 @@ import { UserTable } from '@/db/types/db.types';
 import { AuthService } from './auth.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { JwtAuthGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -23,5 +24,10 @@ export class AuthController {
     res.redirect(
       `${url}/api/auth/google/callback?userId=${userData.id}&name=${userData.name}&avatar=${userData.avatar}&accessToken=${userData.accessToken}`
     );
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('verify-token')
+  verify() {
+    return 'ok';
   }
 }

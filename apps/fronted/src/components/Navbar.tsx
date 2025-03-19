@@ -2,7 +2,6 @@ import { getSession } from '@/lib/helpers/session';
 import Link from 'next/link';
 import SignInPanel from './SignInPanel';
 import Profile from './Profile';
-//
 const Navbar = async () => {
   const session = await getSession();
   console.log(session);
