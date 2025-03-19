@@ -1,29 +1,25 @@
 'use client';
-import { useState } from 'react';
-import { useQuery } from '@urql/next';
-import { getCommentsByPostId } from '@/lib/helpers/gqlQueries';
 import { CONFIG } from '@/constants';
 import CommentCardSkeleton from './CommentCardSkeleton';
-import { CommentEntity } from '@/lib/types/modelTypes';
 import CommentCard from './CommentCard';
+import CommentsPagination from './CommentsPagination';
+import { useMounted } from '@/hooks/useMounted';
+import { useComments } from '@/hooks/useComments';
 
-const Comments = ({ postId }: { postId: number }) => {
-  const [page, setPage] = useState(1);
-  const variables = {
-    postId,
-    offset: (page - 1) * CONFIG.PAGE_SIZE,
-    limit: CONFIG.PAGE_SIZE
-  };
-  const [{ data, fetching, error }] = useQuery({ query: getCommentsByPostId, variables });
-  const comments: CommentEntity[] = data?.comments;
+const Comments = ({ postId, pageSize }: { postId: number; pageSize: number }) => {
+  const mounted = useMounted();
+  const { comments, totalPages, page, fetching, handleCurrentPage } = useComments({ postId, pageSize });
   return (
     <div className="p-2 rounded-md shadow-md">
-      <h3 className="text-lg text-slate-700 ">Comments</h3>
+      <h3 className="text-lg text-slate-700">Comments</h3>
       <div className="flex flex-col gap-4">
         {fetching
-          ? Array.from({ length: CONFIG.PAGE_SIZE }).map((_, index) => <CommentCardSkeleton key={index} />)
-          : comments.map((comment) => <CommentCard key={comment.id} comment={comment} />)}
+          ? Array.from({ length: CONFIG.COMMENTS_SIZE }).map((_, index) => <CommentCardSkeleton key={index} />)
+          : comments?.map((comment) => <CommentCard key={comment.id} comment={comment} />)}
       </div>
+      {totalPages > 1 && (
+        <CommentsPagination onChangeCurrentPage={handleCurrentPage} className="p-2" currentPage={page} totalPages={totalPages} />
+      )}
     </div>
   );
 };

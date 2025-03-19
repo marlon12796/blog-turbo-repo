@@ -61,7 +61,7 @@ export const signInMutation = gql`
 `;
 
 export const getCommentsByPostId = gql`
-  query Comments($postId: Int!, $offset: Int, $limit: Int) {
+  query Comments($postId: Int!, $offset: Int, $limit: Int, $commentCountPostId: Int!) {
     comments(postId: $postId, offset: $offset, limit: $limit) {
       content
       createdAt
@@ -73,5 +73,6 @@ export const getCommentsByPostId = gql`
       id
       updatedAt
     }
+    commentCount(postId: $commentCountPostId)
   }
 `;
