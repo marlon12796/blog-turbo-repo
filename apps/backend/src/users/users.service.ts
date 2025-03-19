@@ -22,12 +22,12 @@ export class UsersService {
     return userCreated;
   }
 
-  async findOneByEmail(email: string) {
+  async findOneByEmail(email: string, throwIfNotFound = true) {
     const [user] = await this.db.select().from(usersTable).where(eq(usersTable.email, email));
 
-    if (!user) throw new NotFoundException(`No se encontró un usuario con el email: ${email}`);
+    if (!user && throwIfNotFound) throw new NotFoundException(`No se encontró un usuario con el email: ${email}`);
 
-    return user;
+    return user ?? null;
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {

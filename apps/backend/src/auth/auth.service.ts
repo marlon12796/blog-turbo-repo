@@ -1,6 +1,6 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { SignInInput } from './inputs/signIn.input';
-import { DBSetup, UserTable } from 'src/db/types/db.types';
+import { AuthType, DBSetup, UserTable } from 'src/db/types/db.types';
 import { DB } from 'src/db/db.module';
 import { UsersService } from '@/users/users.service';
 import { verify } from 'argon2';
@@ -36,18 +36,21 @@ export class AuthService {
     };
   }
   async validateGoogleUser(googleUser: CreateUserInput) {
-    const user = await this.userService.findOneByEmail(googleUser.email);
+    const user = await this.userService.findOneByEmail(googleUser.email, false);
     if (user) {
       const { password, ...authUser } = user;
       void password;
       return authUser;
     }
-    const userCreated = await this.userService.create({
-      email: googleUser.email,
-      name: googleUser.name,
-      password: googleUser.password,
-      avatar: googleUser.avatar
-    });
+    const userCreated = await this.userService.create(
+      {
+        email: googleUser.email,
+        name: googleUser.name,
+        password: googleUser.password,
+        avatar: googleUser.avatar
+      },
+      AuthType.GOOGLE
+    );
     const { password, ...authUser } = userCreated;
     void password;
     return authUser;
