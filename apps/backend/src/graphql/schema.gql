@@ -30,7 +30,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type CommentWithoutPost {
+type CommentWithoutRelations {
   """Identificador único del comentario"""
   id: Int!
 
@@ -42,9 +42,6 @@ type CommentWithoutPost {
 
   """Fecha de la última actualización del comentario"""
   updatedAt: DateTime!
-
-  """Autor del comentario"""
-  author: User!
 }
 
 type Comment {
@@ -109,7 +106,7 @@ type Post {
   author: User!
 
   """Comentarios asociados al post."""
-  comments: [CommentWithoutPost!]!
+  comments: [CommentWithoutRelations!]!
 }
 
 type Like {
@@ -165,8 +162,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
-  createComment(createCommentInput: CreateCommentInput!): Comment!
-  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  createComment(createCommentInput: CreateCommentInput!): CommentWithoutRelations!
   createTag(createTagInput: CreateTagInput!): Tag!
   updateTag(updateTagInput: UpdateTagInput!): Tag!
   removeTag(id: Int!): Tag!
@@ -220,14 +216,11 @@ input UpdateUserInput {
 }
 
 input CreateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
+  """Identificador único de la publicación a la que pertenece el comentario"""
+  postId: Int!
 
-input UpdateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """Contenido del comentario"""
+  content: String!
 }
 
 input CreateTagInput {

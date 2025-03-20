@@ -23,7 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const currentTime = Math.floor(Date.now() / 1000);
     const { exp, sub } = payload;
     if (exp <= currentTime) throw new UnauthorizedException('El token ha expirado.');
-
     const user = await this.authService.validateUser({ email: payload.email, sub });
     return user;
   }

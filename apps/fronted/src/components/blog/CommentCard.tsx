@@ -11,7 +11,7 @@ const CommentCard = ({ comment }: Props) => {
     <div className="p-2 shadow rounded">
       <div className="flex gap-2 text-slate-500 items-center">
         <Avatar className="border-2">
-          <AvatarImage src={comment.author.avatar} />
+          <AvatarImage src={comment.author.avatar} loading="lazy" />
           <AvatarFallback>
             <User2 className="size-6" />
           </AvatarFallback>

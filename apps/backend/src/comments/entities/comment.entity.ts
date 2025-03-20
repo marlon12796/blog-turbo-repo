@@ -3,7 +3,7 @@ import { User } from 'src/users/entities/user.entity';
 import { Post } from 'src/posts/entities/post.entity';
 
 @ObjectType()
-export class CommentWithoutPost {
+export class CommentWithoutRelations {
   @Field(() => Int, { description: 'Identificador único del comentario' })
   id: number;
 
@@ -15,13 +15,13 @@ export class CommentWithoutPost {
 
   @Field(() => Date, { description: 'Fecha de la última actualización del comentario' })
   updatedAt: Date;
-
-  @Field(() => User, { description: 'Autor del comentario' })
-  author: User;
 }
 
 @ObjectType()
-export class Comment extends CommentWithoutPost {
+export class Comment extends CommentWithoutRelations {
+  @Field(() => User, { description: 'Autor del comentario' })
+  author: User;
+
   @Field(() => Post, { description: 'Publicación a la que pertenece el comentario' })
   post: Post;
 }

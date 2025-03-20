@@ -1,9 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { CreateCommentInput } from './dto/create-comment.input';
-import { UpdateCommentInput } from './dto/update-comment.input';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
 import { DB } from '@/db/db.module';
-import { DBSetup } from '@/db/types/db.types';
+import { CommentsTable, DBSetup } from '@/db/types/db.types';
 import { commentsTable } from '@/db/schema/comment.schema';
 import { count, desc, eq } from 'drizzle-orm';
 import { usersTable } from '@/db/schema/users.schema';
@@ -11,8 +10,14 @@ import { usersTable } from '@/db/schema/users.schema';
 @Injectable()
 export class CommentsService {
   constructor(@Inject(DB) private db: DBSetup) {}
-  create(createCommentInput: CreateCommentInput) {
-    return 'This action adds a new comment';
+  async create(createCommentInput: CreateCommentInput, idUser: number) {
+    const [commentCreated] = await this.db
+      .insert(commentsTable)
+      .values(<CommentsTable>{ ...createCommentInput, authorId: idUser })
+      .returning();
+    if (!commentCreated) throw new BadRequestException('No se pudo crear el comentario. Inténtalo nuevamente.');
+
+    return commentCreated;
   }
 
   async findAllByPostId(postId: number, paginationArgs: PaginitionArgs) {
@@ -49,9 +54,5 @@ export class CommentsService {
       .from(commentsTable)
       .where(eq(commentsTable.postId, postId));
     return totalCountComments.totalPosts;
-  }
-
-  update(id: number, updateCommentInput: UpdateCommentInput) {
-    return `This action updates a #${id} comment`;
   }
 }

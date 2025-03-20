@@ -5,9 +5,6 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
 import { ParseIntPipe } from '@nestjs/common';
-// import { UseGuards } from '@nestjs/common';
-// import { JwtAuthGuard } from '@/auth/guards/jwt.guard';
-
 @Resolver(() => Post)
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
@@ -17,7 +14,6 @@ export class PostsResolver {
     return this.postsService.create(createPostInput);
   }
 
-  // @UseGuards(JwtAuthGuard)
   @Query(() => [Post], { name: 'posts' })
   findAll(@Args() paginationArgs: PaginitionArgs) {
     return this.postsService.findAll(paginationArgs);
