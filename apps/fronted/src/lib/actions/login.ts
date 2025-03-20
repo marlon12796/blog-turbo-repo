@@ -35,7 +35,6 @@ export const login = async (prevState: unknown, formData: FormData): Promise<For
       user: { id: token.signIn.id, name: token.signIn.name, avatar: token.signIn.avatar }
     });
   } catch (err) {
-    console.log(err);
     return {
       data,
       errors: {
