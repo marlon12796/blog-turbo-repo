@@ -4,12 +4,13 @@ import Image from 'next/image';
 import SanitizedContent from '@/components/blog/SanitizedContent';
 import Comments from '@/components/blog/Comments';
 import { CONFIG } from '@/constants';
+import { getSession } from '@/lib/helpers/session';
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const postSlug = (await params).slug;
   const id = postSlug.split('-').at(-1);
   const totalComments = CONFIG.COMMENTS_SIZE;
   if (!id) notFound();
-
+  const session = await getSession();
   const post = await fetchPostById(+id);
   return (
     <main className="container mx-auto px-4 py-8 mt-2">
@@ -21,7 +22,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         <Image src={post.thumbnail ?? '/no-image.png'} alt={post.title} fill className="rounded-md object-cover" />
       </div>
       <SanitizedContent content={post.content} />
-      <Comments postId={parseInt(id)} pageSize={totalComments} />
+      <Comments postId={parseInt(id)} pageSize={totalComments} sessionUser={session?.user ?? null} />
     </main>
   );
 };
