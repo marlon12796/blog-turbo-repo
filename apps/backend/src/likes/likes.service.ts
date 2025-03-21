@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
-import { CreateLikeInput } from './dto/create-like.input';
-import { UpdateLikeInput } from './dto/update-like.input';
+import { Inject, Injectable } from '@nestjs/common';
+import { LikePostArgs } from './args/likePost.args';
+import { DBSetup, LikesTable } from '@/db/types/db.types';
+import { DB } from '@/db/db.module';
+import { likesTable } from '@/db/schema/like.schema';
+import { and, count, eq } from 'drizzle-orm';
 
 @Injectable()
 export class LikesService {
-  create(createLikeInput: CreateLikeInput) {
-    return 'This action adds a new like';
-  }
+  constructor(@Inject(DB) private db: DBSetup) {}
 
-  findAll() {
-    return `This action returns all likes`;
+  async likePost(likePost: LikePostArgs, id: number) {
+    const values = { postId: likePost.postId, userId: id, liked: true };
+    const result = await this.db
+      .insert(likesTable)
+      .values(<LikesTable>values)
+      .onConflictDoUpdate({
+        target: [likesTable.userId, likesTable.postId],
+        set: { liked: true }
+      })
+      .returning();
+    return result.length > 0;
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} like`;
+  async unlikePost(likePost: LikePostArgs, id: number) {
+    const values = { postId: likePost.postId, userId: id, liked: false };
+    const result = await this.db
+      .insert(likesTable)
+      .values(<LikesTable>values)
+      .onConflictDoUpdate({
+        target: [likesTable.userId, likesTable.postId],
+        set: { liked: false }
+      })
+      .returning();
+    return result.length > 0;
   }
-
-  update(id: number, updateLikeInput: UpdateLikeInput) {
-    return `This action updates a #${id} like`;
+  async getPostLikeCount(postId: number) {
+    const [likesOfPost] = await this.db
+      .select({ totalLikes: count(likesTable.id) })
+      .from(likesTable)
+      .where(and(eq(likesTable.postId, postId), eq(likesTable.liked, true)));
+    return likesOfPost.totalLikes;
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} like`;
+  async userLikedPost(likePost: LikePostArgs, userId: number) {
+    const [userLike] = await this.db
+      .select()
+      .from(likesTable)
+      .where(and(eq(likesTable.postId, likePost.postId), eq(likesTable.userId, userId)));
+    return userLike;
   }
 }

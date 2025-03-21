@@ -109,17 +109,20 @@ type Post {
   comments: [CommentWithoutRelations!]!
 }
 
-type Like {
-  """Identificador único de la like"""
+type LikeWithoutRelations {
+  """Identificador único del like"""
   id: Int!
 
-  """Publicación a la que se hace la like"""
-  post: Post!
+  """ID de la publicación"""
+  postId: Int!
 
-  """Usuario que realiza la like"""
-  user: User!
+  """ID del usuario"""
+  userId: Int!
 
-  """Fecha de creación de la like"""
+  """Indica si el usuario ha dado like"""
+  liked: Boolean!
+
+  """Fecha de creación del like"""
   createdAt: DateTime!
 }
 
@@ -149,8 +152,8 @@ type Query {
   commentCount(postId: Int!): Int!
   tags: [Tag!]!
   tag(id: Int!): Tag!
-  likes: [Like!]!
-  like(id: Int!): Like!
+  postLikesCount(postId: Int!): Int!
+  userLikedPost(postId: Int!): LikeWithoutRelations!
 }
 
 type Mutation {
@@ -166,9 +169,8 @@ type Mutation {
   createTag(createTagInput: CreateTagInput!): Tag!
   updateTag(updateTagInput: UpdateTagInput!): Tag!
   removeTag(id: Int!): Tag!
-  createLike(createLikeInput: CreateLikeInput!): Like!
-  updateLike(updateLikeInput: UpdateLikeInput!): Like!
-  removeLike(id: Int!): Like!
+  likePost(postId: Int!): Boolean!
+  unlikePost(postId: Int!): Boolean!
   signIn(signInInput: SignInInput!): AuthPayload!
 }
 
@@ -229,17 +231,6 @@ input CreateTagInput {
 }
 
 input UpdateTagInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateLikeInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

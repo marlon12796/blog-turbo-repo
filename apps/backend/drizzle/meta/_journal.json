@@ -8,6 +8,13 @@
       "when": 1742315707587,
       "tag": "0000_brief_zaran",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1742530616323,
+      "tag": "0001_curvy_clea",
+      "breakpoints": true
     }
   ]
 }
