@@ -8,12 +8,12 @@ import { SessionUser } from '@/lib/helpers/session';
 import AddComment from './AddComment';
 
 const Comments = ({ postId, pageSize, sessionUser }: { postId: number; pageSize: number; sessionUser: SessionUser | null }) => {
-  const { comments, totalPages, page, fetching, handleCurrentPage } = useComments({ postId, pageSize });
+  const { comments, totalPages, page, fetching, handleCurrentPage, refreshComments } = useComments({ postId, pageSize });
   return (
     <div className="px-4 py-3 rounded-md shadow-md">
       <div className="flex items-center gap-4 mb-2">
         <h3 className="text-lg text-slate-700 ">Comments</h3>
-        {sessionUser && <AddComment user={sessionUser} postId={postId} />}
+        {sessionUser && <AddComment user={sessionUser} postId={postId} refreshComments={refreshComments} />}
       </div>
       <div className="flex flex-col gap-4">
         {fetching

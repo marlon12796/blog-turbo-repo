@@ -22,10 +22,9 @@ const Providers = ({ children, session }: ProviderTypes) => {
           headers: { authorization: session?.accessToken ? `Bearer ${session.accessToken}` : '' }
         };
       },
-
       suspense: true
     });
-
+      
     return [client, ssr];
   }, []);
   return (
