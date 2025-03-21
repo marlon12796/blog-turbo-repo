@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { LikesService } from './likes.service';
-import { Like, LikeWithoutRelations } from './entities/like.entity';
+import { Like } from './entities/like.entity';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@/auth/guards/jwt.guard';
 import { UserTable } from '@/db/types/db.types';
@@ -27,7 +27,7 @@ export class LikesResolver {
     return this.likesService.getPostLikeCount(likePost.postId);
   }
   @UseGuards(JwtAuthGuard)
-  @Query(() => LikeWithoutRelations)
+  @Query(() => Boolean)
   userLikedPost(@Args() likePost: LikePostArgs, @CurrentUser() user: UserTable) {
     return this.likesService.userLikedPost(likePost, user.id);
   }

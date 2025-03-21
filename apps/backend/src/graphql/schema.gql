@@ -109,23 +109,6 @@ type Post {
   comments: [CommentWithoutRelations!]!
 }
 
-type LikeWithoutRelations {
-  """Identificador único del like"""
-  id: Int!
-
-  """ID de la publicación"""
-  postId: Int!
-
-  """ID del usuario"""
-  userId: Int!
-
-  """Indica si el usuario ha dado like"""
-  liked: Boolean!
-
-  """Fecha de creación del like"""
-  createdAt: DateTime!
-}
-
 """Respuesta de autenticación con datos del usuario y token de acceso"""
 type AuthPayload {
   """Identificador único del usuario autenticado"""
@@ -153,7 +136,7 @@ type Query {
   tags: [Tag!]!
   tag(id: Int!): Tag!
   postLikesCount(postId: Int!): Int!
-  userLikedPost(postId: Int!): LikeWithoutRelations!
+  userLikedPost(postId: Int!): Boolean!
 }
 
 type Mutation {

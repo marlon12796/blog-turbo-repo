@@ -5,6 +5,8 @@ import SanitizedContent from '@/components/blog/SanitizedContent';
 import Comments from '@/components/blog/Comments';
 import { CONFIG } from '@/constants';
 import { getSession } from '@/lib/helpers/session';
+import LikePost from '@/components/blog/LikePost';
+
 const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const postSlug = (await params).slug;
   const id = postSlug.split('-').at(-1);
@@ -22,6 +24,7 @@ const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
         <Image src={post.thumbnail ?? '/no-image.png'} alt={post.title} fill className="rounded-md object-cover" />
       </div>
       <SanitizedContent content={post.content} />
+      {session?.user && <LikePost postId={post.id} user={session.user} />}
       <Comments postId={parseInt(id)} pageSize={totalComments} sessionUser={session?.user ?? null} />
     </main>
   );

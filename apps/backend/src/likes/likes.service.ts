@@ -41,10 +41,13 @@ export class LikesService {
     return likesOfPost.totalLikes;
   }
   async userLikedPost(likePost: LikePostArgs, userId: number) {
-    const [userLike] = await this.db
+    // console.log(likePost);
+    // console.log(userId);
+    const userLike = await this.db
       .select()
       .from(likesTable)
       .where(and(eq(likesTable.postId, likePost.postId), eq(likesTable.userId, userId)));
-    return userLike;
+    console.log(userLike);
+    return userLike.length > 0 && userLike[0].liked;
   }
 }
