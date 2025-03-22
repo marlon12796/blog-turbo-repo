@@ -14,7 +14,7 @@ export class SeedService {
   async executeSeed() {
     const isProd = process.env.NODE_ENV === 'prod';
     if (isProd) throw new BadRequestException('No podemos correr las semillas en producción');
-    const defaultPassword = await hash('123');
+    const defaultPassword = await hash('1234567');
     this.deleteDatabase();
     const users = Array.from({ length: 10 }).map(() => ({
       name: faker.person.fullName(),

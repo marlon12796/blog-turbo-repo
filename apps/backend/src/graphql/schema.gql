@@ -2,33 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  """Identificador único del usuario"""
+type Tag {
+  """Identificador único del tag"""
   id: Int!
 
-  """Nombre completo del usuario"""
+  """Nombre del tag"""
   name: String!
 
-  """Correo electrónico del usuario"""
-  email: String!
-
-  """Biografía o descripción personal del usuario"""
-  bio: String
-
-  """URL de la foto de perfil del usuario"""
-  avatar: String
-
-  """Fecha en que se creó el usuario"""
-  createdAt: DateTime!
-
-  """Fecha de la última actualización del usuario"""
-  updatedAt: DateTime!
+  """Publicaciones relacionadas con el tag"""
+  posts: [Post!]!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type CommentWithoutRelations {
   """Identificador único del comentario"""
@@ -43,6 +26,11 @@ type CommentWithoutRelations {
   """Fecha de la última actualización del comentario"""
   updatedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Comment {
   """Identificador único del comentario"""
@@ -64,15 +52,27 @@ type Comment {
   post: Post!
 }
 
-type Tag {
-  """Identificador único del tag"""
+type User {
+  """Identificador único del usuario"""
   id: Int!
 
-  """Nombre del tag"""
+  """Nombre completo del usuario"""
   name: String!
 
-  """Publicaciones relacionadas con el tag"""
-  posts: [Post!]!
+  """Correo electrónico del usuario"""
+  email: String!
+
+  """Biografía o descripción personal del usuario"""
+  bio: String
+
+  """URL de la foto de perfil del usuario"""
+  avatar: String
+
+  """Fecha en que se creó el usuario"""
+  createdAt: DateTime!
+
+  """Fecha de la última actualización del usuario"""
+  updatedAt: DateTime!
 }
 
 """Representa una publicación en la plataforma."""
@@ -104,9 +104,38 @@ type Post {
 
   """Usuario que creó el post."""
   author: User!
+}
 
-  """Comentarios asociados al post."""
-  comments: [CommentWithoutRelations!]!
+type AuthorPost {
+  """Identificador único del post."""
+  id: Int!
+
+  """Título de la publicación."""
+  title: String!
+
+  """Contenido principal del post."""
+  content: String!
+
+  """URL de la imagen en miniatura del post."""
+  thumbnail: String
+
+  """Indica si la publicación está publicada o en borrador."""
+  published: Boolean!
+
+  """Fecha de creación del post."""
+  createdAt: DateTime!
+
+  """Última fecha de actualización del post."""
+  updatedAt: DateTime!
+
+  """Titulo url Publicacion"""
+  slug: String!
+
+  """Cantidad total de likes en el post."""
+  totalLikes: Int!
+
+  """Cantidad total de comentarios en el post."""
+  totalComments: Int!
 }
 
 """Respuesta de autenticación con datos del usuario y token de acceso"""
@@ -128,9 +157,11 @@ type AuthPayload {
 }
 
 type Query {
-  posts(offset: Int = 0, limit: Int = 10): [Post!]!
-  post(id: Int!): Post!
-  postCount: Int!
+  getAllPosts(offset: Int = 0, limit: Int = 10): [Post!]!
+  getPostById(postId: Int!): Post!
+  getUserPosts(offset: Int = 0, limit: Int = 10): [AuthorPost!]!
+  countUserPosts: Int!
+  countAllPosts: Int!
   comments(postId: Int!, offset: Int = 0, limit: Int = 10): [Comment!]!
   commentCount(postId: Int!): Int!
   tags: [Tag!]!
@@ -142,9 +173,7 @@ type Query {
 type Mutation {
   """Ejecuta la construcción de la base de datos """
   ExecuteSeed: Boolean!
-  createPost(createPostInput: CreatePostInput!): Post!
-  updatePost(updatePostInput: UpdatePostInput!): Post!
-  removePost(id: Int!): Post!
+  createNewPost(createPostInput: CreatePostInput!): Post!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
@@ -160,12 +189,6 @@ type Mutation {
 input CreatePostInput {
   """Example field (placeholder)"""
   exampleField: Int!
-}
-
-input UpdatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 """Datos requeridos para crear un nuevo usuario"""

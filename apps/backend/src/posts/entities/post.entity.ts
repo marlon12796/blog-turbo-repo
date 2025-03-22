@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { CommentWithoutRelations } from 'src/comments/entities/comment.entity';
 import { Tag, TagWithoutPost } from 'src/tags/entities/tag.entity';
 import { User } from 'src/users/entities/user.entity';
 
@@ -33,7 +32,4 @@ export class Post {
 
   @Field(() => User, { description: 'Usuario que creó el post.' })
   author: User;
-
-  @Field(() => [CommentWithoutRelations], { description: 'Comentarios asociados al post.' })
-  comments: CommentWithoutRelations[];
 }
