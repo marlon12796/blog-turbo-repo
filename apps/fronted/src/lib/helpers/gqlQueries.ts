@@ -112,6 +112,7 @@ export const getUserPosts = gql`
       published
       slug
       thumbnail
+      title
       _count {
         totalComments
         totalLikes

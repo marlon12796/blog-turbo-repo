@@ -11,8 +11,8 @@ export type Post = {
   createdAt: Date;
   updatedAt: Date;
   _count: {
-    likes: number;
-    comments: number;
+    totalComments: number;
+    totalLikes: number;
   };
 };
 

@@ -1,4 +1,5 @@
 import NoPosts from '@/components/user/NoPosts';
+import UserPostList from '@/components/user/UserPostList';
 import { CONFIG } from '@/constants';
 import { fetchUserPosts } from '@/lib/actions/posts';
 
@@ -14,7 +15,7 @@ const page = async ({ searchParams }: PostsUserTypes) => {
   const page = parseInt(params?.page ?? '1');
   const { posts, countUserPosts } = await fetchUserPosts({ page, pageSize: limit });
   const isNoutFoundPosts = posts.length === 0 || countUserPosts === 0;
-  return <>{isNoutFoundPosts ? <NoPosts /> : posts.map((post) => <p key={post.id}>{post.title}</p>)}</>;
+  return <>{isNoutFoundPosts ? <NoPosts /> : <UserPostList posts={posts} />}</>;
 };
 
 export default page;
