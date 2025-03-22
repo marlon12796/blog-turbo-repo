@@ -16,7 +16,7 @@ const Profile = ({ session }: { session: Session }) => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="size-10 rounded-full border-2 border-skyblue">
-          <AvatarImage src={session.user.avatar} alt={session.user.name} />
+          <AvatarImage src={session.user.avatar} alt={session.user.name} fetchPriority="high" />
           <AvatarFallback className="rounded-lg">CN</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -24,7 +24,7 @@ const Profile = ({ session }: { session: Session }) => {
         <DropdownMenuLabel className="py-0 pr-4 font-normal">
           <div className="flex items-center gap-2  py-1.5 text-left text-sm">
             <Avatar className="size-8 rounded-lg">
-              <AvatarImage src={session.user.avatar} alt={session.user.name} />
+              <AvatarImage src={session.user.avatar} alt={session.user.name} loading="lazy" />
               <AvatarFallback className="rounded-lg">CN</AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">

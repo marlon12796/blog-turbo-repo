@@ -2,12 +2,13 @@
 
 import { redirect } from 'next/navigation';
 import { signInMutation } from '../helpers/gqlQueries';
-import { getClient } from '../helpers/urqlClient';
+import { publicClient } from '../helpers/urqlClient';
 import { FormState } from '../types/formState';
 import { LoginFormSchema } from '../schemas/loginForm.schema';
 import { revalidatePath } from 'next/cache';
 import { createSession } from '../helpers/session';
 import { SignIn } from '../types/modelTypes';
+import { resourceLimits } from 'worker_threads';
 
 export const login = async (prevState: unknown, formData: FormData): Promise<FormState> => {
   const data = Object.fromEntries(formData.entries());
@@ -20,8 +21,9 @@ export const login = async (prevState: unknown, formData: FormData): Promise<For
     };
   }
   try {
-    const result = await getClient().mutation(signInMutation, { signInInput: { ...validatedFields.data } });
+    const result = await publicClient.mutation(signInMutation, { signInInput: { ...validatedFields.data } });
     if (result.error) {
+      // console.log(result.error.graphQLErrors[0].extensions.originalErro);
       return {
         data: Object.fromEntries(formData.entries()),
         errors: {

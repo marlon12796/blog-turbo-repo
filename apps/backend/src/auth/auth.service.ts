@@ -18,11 +18,9 @@ export class AuthService {
   ) {}
   async validateLocalUser(signInInput: SignInInput) {
     const user = await this.userService.findOneByEmail(signInInput.email);
-    console.log(user);
-    const isMatchPassword = await verify(user.password, signInInput.password);
     if (user.authType === 'GOOGLE')
       throw new UnauthorizedException('Este correo está registrado con Google. Por favor, inicia sesión con Google.');
-
+    const isMatchPassword = await verify(user.password, signInInput.password);
     if (!isMatchPassword) throw new UnauthorizedException('Contraseña incorrecta');
 
     return user;

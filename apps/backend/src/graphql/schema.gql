@@ -106,6 +106,14 @@ type Post {
   author: User!
 }
 
+type PostCount {
+  """Cantidad total de likes en el post."""
+  totalLikes: Int!
+
+  """Cantidad total de comentarios en el post."""
+  totalComments: Int!
+}
+
 type AuthorPost {
   """Identificador único del post."""
   id: Int!
@@ -131,11 +139,8 @@ type AuthorPost {
   """Titulo url Publicacion"""
   slug: String!
 
-  """Cantidad total de likes en el post."""
-  totalLikes: Int!
-
-  """Cantidad total de comentarios en el post."""
-  totalComments: Int!
+  """Contadores asociados al post"""
+  _count: PostCount!
 }
 
 """Respuesta de autenticación con datos del usuario y token de acceso"""

@@ -1,8 +1,8 @@
 import { gql } from '@urql/next';
 
 export const getPostsQuery = gql`
-  query Posts($offset: Int, $limit: Int) {
-    posts(offset: $offset, limit: $limit) {
+  query GetAllPosts($offset: Int, $limit: Int) {
+    getAllPosts(offset: $offset, limit: $limit) {
       slug
       id
       thumbnail
@@ -12,13 +12,13 @@ export const getPostsQuery = gql`
       createdAt
       content
     }
-    postCount
+    countAllPosts
   }
 `;
 
 export const getPostByIdQuery = gql`
-  query Post($postId: Int!) {
-    post(id: $postId) {
+  query GetPostById($postId: Int!) {
+    getPostById(postId: $postId) {
       author {
         email
         name
@@ -51,10 +51,10 @@ export const createUserMutation = gql`
 export const signInMutation = gql`
   mutation SignIn($signInInput: SignInInput!) {
     signIn(signInInput: $signInInput) {
-      avatar
-      email
-      id
       name
+      id
+      email
+      avatar
       accessToken
     }
   }
@@ -101,5 +101,22 @@ export const likePostMutation = gql`
 export const unlikePostMutation = gql`
   mutation UnlikePost($postId: Int!) {
     unlikePost(postId: $postId)
+  }
+`;
+export const getUserPosts = gql`
+  query GetUserPosts($offset: Int, $limit: Int) {
+    getUserPosts(offset: $offset, limit: $limit) {
+      content
+      createdAt
+      id
+      published
+      slug
+      thumbnail
+      _count {
+        totalComments
+        totalLikes
+      }
+    }
+    countUserPosts
   }
 `;

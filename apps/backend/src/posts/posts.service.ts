@@ -75,8 +75,10 @@ export class PostsService {
         thumbnail: postsTable.thumbnail,
         published: postsTable.published,
         slug: postsTable.slug,
-        totalLikes: sql<number>`COUNT(DISTINCT ${likesTable.id})`,
-        totalComments: sql<number>`COUNT(DISTINCT ${commentsTable.id})`
+        _count: {
+          totalLikes: sql<number>`COUNT(DISTINCT ${likesTable.id})`,
+          totalComments: sql<number>`COUNT(DISTINCT ${commentsTable.id})`
+        }
       })
       .from(postsTable)
       .leftJoin(commentsTable, eq(postsTable.id, commentsTable.postId))
