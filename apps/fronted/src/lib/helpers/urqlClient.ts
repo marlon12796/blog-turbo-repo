@@ -3,6 +3,7 @@ import { CONFIG } from '@/constants';
 import { cacheExchange, createClient, fetchExchange } from '@urql/core';
 import { getSession } from './session';
 import { cache } from 'react';
+import { redirect } from 'next/navigation';
 
 // Tipo seguro para la sesión
 type Session = { accessToken?: string } | null;
@@ -31,5 +32,6 @@ export const getCachedSession = cache(async () => {
 
 export const getClient = async () => {
   const session = await getCachedSession();
+  if (!session) redirect('/auth/signin');
   return makeClient(session);
 };

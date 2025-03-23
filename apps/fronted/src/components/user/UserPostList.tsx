@@ -1,7 +1,8 @@
 import { Post } from '@/lib/types/modelTypes';
 import PostListItem from './PostListItem';
+import Pagination from '../Pagination';
 
-const UserPostList = ({ posts }: { posts: Post[] }) => {
+const UserPostList = ({ posts, totalPages, currentPage }: { posts: Post[]; totalPages: number; currentPage: number }) => {
   return (
     <>
       <div className="bg-transparent w-full mt-2 text-center">
@@ -14,10 +15,11 @@ const UserPostList = ({ posts }: { posts: Post[] }) => {
           <div className="col-span-1">Actions</div>
         </div>
       </div>
-
       {posts.map((post) => (
         <PostListItem post={post} key={post.id} />
       ))}
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </>
   );
 };

@@ -9,7 +9,6 @@ type Props = {
 };
 
 const PostListItem = ({ post }: Props) => {
-  console.log(post);
   return (
     <div
       className={`grid grid-cols-8 m-2 overflow-hidden rounded-md gap-3 min-h-44 items-center border shadow hover:scale-[101%] transition text-center bg-white relative ${
@@ -17,7 +16,14 @@ const PostListItem = ({ post }: Props) => {
       }`}
     >
       <div className="relative h-full w-full col-start-1 col-span-1">
-        <Image src={post.thumbnail || '/no-image.png'} className="object-cover" alt={post.title} fill />
+        <Image
+          src={post.thumbnail || '/no-image.png'}
+          className="size-full  object-cover"
+          alt={post.title}
+          width={500}
+          height={500}
+          loading="lazy"
+        />
       </div>
       <div className="flex flex-col text-left gap-2 col-start-2 col-span-3">
         <p className="text-lg text-balance text-slate-700">{post.title}</p>
@@ -29,7 +35,7 @@ const PostListItem = ({ post }: Props) => {
       <p className="text-left">{post._count.totalLikes}</p>
 
       <p className="text-left">{post._count.totalComments}</p>
-      <PostActions />
+      <PostActions postId={post.id} />
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
