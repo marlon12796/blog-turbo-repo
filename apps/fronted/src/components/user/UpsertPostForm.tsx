@@ -7,16 +7,18 @@ import { Label } from '../ui/Label';
 import { Textarea } from '../ui/Textarea';
 import { PostFormState } from '@/lib/types/formState';
 import { PostFormSchema } from '@/lib/schemas/postForm.schema';
+import { uploadThumbnail } from '@/lib/helpers/upload';
 
 const UpsertPostForm = () => {
-  const [formState, setFormState] = useState<PostFormState['data']>({
+  const initialForm = {
     title: '',
     content: '',
-    thumbnail: null,
+    thumbnail: undefined,
     thumbnailUrl: '',
     tags: '',
     published: false
-  });
+  };
+  const [formState, setFormState] = useState<PostFormState['data']>(initialForm);
 
   const [errors, setErrors] = useState<PostFormState['errors']>({});
   const validateForm = (data: PostFormState['data']) => {
@@ -64,16 +66,20 @@ const UpsertPostForm = () => {
     validateForm({ thumbnail: file, thumbnailUrl: objectUrl });
     setFormState(updatedData);
   };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const clearForm = () => {
+    setFormState(initialForm);
+    setErrors({});
+  };
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const validationResult = PostFormSchema.safeParse(formState);
 
     if (!validationResult.success) {
       const fieldErrors = validationResult.error.flatten().fieldErrors;
-      setErrors(fieldErrors);
-      return;
+      return setErrors(fieldErrors);
     }
-    console.log(formState);
+    const url = await uploadThumbnail(validationResult.data.thumbnail);
+    clearForm();
   };
   return (
     <form className='flex flex-col gap-5' onSubmit={handleSubmit}>

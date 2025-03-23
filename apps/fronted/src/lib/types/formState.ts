@@ -16,7 +16,7 @@ export type PostFormState = {
     postId?: number;
     title?: string;
     content?: string;
-    thumbnail?: File | null;
+    thumbnail?: File;
     tags?: string;
     published?: boolean;
     thumbnailUrl?: string;

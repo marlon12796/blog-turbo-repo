@@ -16,6 +16,7 @@
     "@radix-ui/react-separator": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@supabase/supabase-js": "^2.49.1",
     "@urql/core": "^5.1.1",
     "@urql/next": "^1.1.5",
     "class-variance-authority": "^0.7.1",
@@ -42,9 +43,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
-    "tailwindcss": "^4",
-    "typescript": "^5",
     "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss": "^4",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5"
   }
 }
