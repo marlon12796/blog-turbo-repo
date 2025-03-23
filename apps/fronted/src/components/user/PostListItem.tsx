@@ -11,7 +11,7 @@ type Props = {
 const PostListItem = ({ post }: Props) => {
   return (
     <div
-      className={`grid grid-cols-8 m-2 overflow-hidden rounded-md gap-3 min-h-44 items-center border shadow hover:scale-[101%] transition text-center bg-white relative ${
+      className={`grid grid-cols-8 m-2 mb-4 overflow-hidden rounded-md gap-3 min-h-44 items-center border shadow hover:scale-[101%] transition text-center  relative ${
         !post.published ? 'opacity-50 grayscale' : ''
       }`}
     >

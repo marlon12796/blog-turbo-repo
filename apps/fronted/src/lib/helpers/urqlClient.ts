@@ -1,9 +1,7 @@
-// lib/graphql/client.ts
 import { CONFIG } from '@/constants';
 import { cacheExchange, createClient, fetchExchange } from '@urql/core';
 import { getSession } from './session';
 import { cache } from 'react';
-import { redirect } from 'next/navigation';
 
 // Tipo seguro para la sesión
 type Session = { accessToken?: string } | null;
@@ -14,9 +12,8 @@ export const publicClient = createClient({
   exchanges: [cacheExchange, fetchExchange]
 });
 
-// Función para crear un cliente autenticado
 export const makeClient = (session: Session = null) => {
-  if (!session?.accessToken) return publicClient; // Usa el cliente público si no hay sesión
+  if (!session?.accessToken) return publicClient;
 
   return createClient({
     url: CONFIG.BACKEND_URL,
@@ -32,6 +29,5 @@ export const getCachedSession = cache(async () => {
 
 export const getClient = async () => {
   const session = await getCachedSession();
-  if (!session) redirect('/auth/signin');
   return makeClient(session);
 };

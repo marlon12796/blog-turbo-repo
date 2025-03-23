@@ -8,7 +8,6 @@ import { LoginFormSchema } from '../schemas/loginForm.schema';
 import { revalidatePath } from 'next/cache';
 import { createSession } from '../helpers/session';
 import { SignIn } from '../types/modelTypes';
-import { resourceLimits } from 'worker_threads';
 
 export const login = async (prevState: unknown, formData: FormData): Promise<FormState> => {
   const data = Object.fromEntries(formData.entries());
