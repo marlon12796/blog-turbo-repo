@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const PostFormSchema = z.object({
-  postId: z.coerce.number().int().optional(),
   title: z.string().min(5).max(100),
   content: z.string().min(20),
   tags: z

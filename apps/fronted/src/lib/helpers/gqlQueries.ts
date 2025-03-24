@@ -121,3 +121,8 @@ export const getUserPosts = gql`
     countUserPosts
   }
 `;
+export const createPostMutation = gql`
+  mutation CreateNewPost($createPostInput: CreatePostInput!) {
+    createNewPost(createPostInput: $createPostInput)
+  }
+`;

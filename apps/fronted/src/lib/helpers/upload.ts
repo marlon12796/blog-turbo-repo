@@ -9,10 +9,9 @@ export async function uploadThumbnail(image: File): Promise<string> {
 
     const { data: urlData } = supabaseClient().storage.from('thumbnails').getPublicUrl(data.path);
 
-    if (!urlData.publicUrl) {
-      throw new Error('Failed to retrieve public URL.');
-    }
+    if (!urlData.publicUrl) throw new Error('Failed to retrieve public URL.');
 
+    console.log(data);
     return urlData.publicUrl;
   } catch (error) {
     console.error('Upload error:', error);

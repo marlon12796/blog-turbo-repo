@@ -1,21 +1,54 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostInput } from './dto/create-post.input';
-import { DBSetup } from 'src/db/types/db.types';
+import { DBSetup, PostsTable } from 'src/db/types/db.types';
 import { DB } from 'src/db/db.module';
 import { postsTable } from 'src/db/schema/posts.schema';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
-import { count, eq, sql } from 'drizzle-orm';
+import { count, eq, inArray, SQL, sql } from 'drizzle-orm';
 import { usersTable } from '@/db/schema/users.schema';
-import { postTagsTable } from '@/db/schema/posts-tags.schema';
-import { tagsTable, commentsTable, likesTable } from '@/db/schema/db.schema';
-
+import { tagsTable, commentsTable, likesTable, postTagsTable } from '@/db/schema/db.schema';
+import slugify from 'slugify';
 @Injectable()
 export class PostsService {
   constructor(@Inject(DB) private db: DBSetup) {}
 
-  // Crear un nuevo post
-  async createNewPost(createPostInput: CreatePostInput) {
-    return 'all posts';
+  async createNewPost(createPostInput: CreatePostInput, id: number) {
+    const slug = slugify(createPostInput.title, { lower: true, strict: true, trim: true });
+    const sqlChunks: SQL[] = [];
+    createPostInput.tags.forEach((tag, index) => {
+      sqlChunks.push(sql`SELECT ${tag} AS name`);
+      if (index < createPostInput.tags.length - 1) sqlChunks.push(sql` UNION ALL `);
+    });
+
+    const subquery = sql.join(sqlChunks, sql.raw(''));
+
+    const addedPost = await this.db.transaction(async (tx) => {
+      await tx.insert(tagsTable).select(
+        sql`SELECT NULL,names.name FROM (${subquery}) AS names
+        LEFT JOIN tags ON tags.name = names.name WHERE tags.name IS NULL`
+      );
+      const [post] = await tx
+        .insert(postsTable)
+        .values(<PostsTable>{
+          title: createPostInput.title,
+          content: createPostInput.content,
+          thumbnail: createPostInput.thumbnail,
+          slug,
+          published: createPostInput.published,
+          authorId: id
+        })
+        .returning();
+      const tagsId = tx
+        .$with('tags_id')
+        .as(tx.select({ id: tagsTable.id }).from(tagsTable).where(inArray(tagsTable.name, createPostInput.tags)));
+      await tx
+        .with(tagsId)
+        .insert(postTagsTable)
+        .select(() => sql`SELECT ${post.id}, tags_id.id FROM tags_id `);
+      return post;
+    });
+    console.log(addedPost);
+    return 'addedPost';
   }
 
   // Obtener todos los posts paginados

@@ -178,7 +178,7 @@ type Query {
 type Mutation {
   """Ejecuta la construcción de la base de datos """
   ExecuteSeed: Boolean!
-  createNewPost(createPostInput: CreatePostInput!): Post!
+  createNewPost(createPostInput: CreatePostInput!): String!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
@@ -192,8 +192,11 @@ type Mutation {
 }
 
 input CreatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  content: String!
+  thumbnail: String
+  tags: [String!]!
+  published: Boolean
 }
 
 """Datos requeridos para crear un nuevo usuario"""

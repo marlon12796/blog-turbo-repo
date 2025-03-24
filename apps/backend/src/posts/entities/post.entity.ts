@@ -27,6 +27,7 @@ export class Post {
 
   @Field(() => String, { description: 'Titulo url Publicacion' })
   slug: string;
+
   @Field(() => [Tag])
   tags: TagWithoutPost[];
 

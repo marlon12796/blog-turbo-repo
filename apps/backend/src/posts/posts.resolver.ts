@@ -12,10 +12,10 @@ import { AuthorPost } from './entities/authorPost.entity';
 @Resolver(() => Post)
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
-
-  @Mutation(() => Post, { name: 'createNewPost' })
-  createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
-    return this.postsService.createNewPost(createPostInput);
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => String, { name: 'createNewPost' })
+  createPost(@Args('createPostInput') createPostInput: CreatePostInput, @CurrentUser() user: UserTable) {
+    return this.postsService.createNewPost(createPostInput, user.id);
   }
 
   @Query(() => [Post], { name: 'getAllPosts' })
