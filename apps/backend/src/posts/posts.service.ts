@@ -19,7 +19,6 @@ export class PostsService {
       sqlChunks.push(sql`SELECT ${tag} AS name`);
       if (index < createPostInput.tags.length - 1) sqlChunks.push(sql` UNION ALL `);
     });
-
     const subquery = sql.join(sqlChunks, sql.raw(''));
 
     const addedPost = await this.db.transaction(async (tx) => {
@@ -47,7 +46,6 @@ export class PostsService {
         .select(() => sql`SELECT ${post.id}, tags_id.id FROM tags_id `);
       return post;
     });
-    console.log(addedPost);
     return 'addedPost';
   }
 
