@@ -1,5 +1,6 @@
-import { InputType, Field } from '@nestjs/graphql';
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, MinLength } from 'class-validator';
+import { InputType, Field, PartialType, Int } from '@nestjs/graphql';
+import { Transform } from 'class-transformer';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, MinLength, ArrayMinSize, IsNumber } from 'class-validator';
 
 @InputType()
 export class CreatePostInput {
@@ -19,11 +20,20 @@ export class CreatePostInput {
   @IsOptional()
   thumbnail?: string;
 
-  @IsString({ each: true })
   @Field(() => [String])
+  @IsString({ each: true })
+  @Transform(({ value }) => value.map((tag: string) => tag.trim().toLowerCase()))
+  @ArrayMinSize(1, { message: 'At least one tag is required' })
   tags: string[];
 
   @Field({ nullable: true })
   @IsBoolean()
   published: boolean;
+}
+@InputType()
+export class UpdatePostInput extends PartialType(CreatePostInput) {
+  @Field(() => Int)
+  @IsNumber()
+  @IsNotEmpty()
+  postId: number;
 }

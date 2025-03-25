@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4bb4336d-94cc-4eba-b3d2-9e5815208f96",
+  "id": "374224e4-eed0-4fe5-a9cc-160151fef588",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "comments": {
@@ -109,6 +109,14 @@
           "notNull": false,
           "autoincrement": false
         },
+        "liked": {
+          "name": "liked",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": true
+        },
         "createdAt": {
           "name": "createdAt",
           "type": "integer",
@@ -178,16 +186,7 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "unique_post_tag": {
-          "name": "unique_post_tag",
-          "columns": [
-            "postId",
-            "tagId"
-          ],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "post_tags_postId_posts_id_fk": {
           "name": "post_tags_postId_posts_id_fk",
@@ -216,7 +215,15 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "post_tags_postId_tagId_pk": {
+          "columns": [
+            "postId",
+            "tagId"
+          ],
+          "name": "post_tags_postId_tagId_pk"
+        }
+      },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
@@ -276,7 +283,7 @@
           "name": "createdAt",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false,
           "default": "(unixepoch())"
         },

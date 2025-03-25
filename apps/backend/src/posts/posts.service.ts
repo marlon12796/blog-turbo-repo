@@ -1,9 +1,9 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePostInput } from './dto/create-post.input';
+import { CreatePostInput, UpdatePostInput } from './dto/create-post.input';
 import { DBSetup, PostsTable } from 'src/db/types/db.types';
 import { DB } from 'src/db/db.module';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
-import { count, eq, inArray, SQL, sql } from 'drizzle-orm';
+import { and, count, eq, inArray, isNull, notInArray, SQL, sql } from 'drizzle-orm';
 import { usersTable, postsTable } from '@/db/schema/db.schema';
 import { tagsTable, commentsTable, likesTable, postTagsTable } from '@/db/schema/db.schema';
 import slugify from 'slugify';
@@ -118,6 +118,56 @@ export class PostsService {
       .groupBy(postsTable.id)
       .offset(offset);
     return userPosts;
+  }
+  async updatePost(updatePostInput: UpdatePostInput, id: number) {
+    const { postId, tags, ...data } = updatePostInput;
+    const slug = data.title ? slugify(data.title, { lower: true, strict: true, trim: true }) : undefined;
+    const dataInputUpdate = {
+      ...data,
+      slug
+    };
+    const hasPostChanges = Object.keys(dataInputUpdate).length > 0;
+    const hasTags = Array.isArray(tags) && tags.length > 0;
+
+    const sqlChunks: SQL[] = [];
+    tags.forEach((tag, index) => {
+      sqlChunks.push(sql`SELECT ${tag} AS name`);
+      if (index < tags.length - 1) sqlChunks.push(sql` UNION ALL `);
+    });
+    const subquery = sql.join(sqlChunks, sql.raw(''));
+    await this.db.transaction(async (tx) => {
+      //  paso 1 updatear post
+      if (hasPostChanges) await tx.update(postsTable).set(dataInputUpdate).where(eq(postsTable.id, postId));
+
+      if (hasTags) {
+        // paso 2 Verificar e insertar los tags necesarios en la tabla `tags`
+        await tx.insert(tagsTable).select(
+          sql`SELECT NULL,new_tags.name FROM (${subquery}) AS new_tags
+        LEFT JOIN tags ON tags.name = new_tags.name WHERE tags.name IS NULL`
+        );
+        // paso 3 tagsPosts
+        await tx.insert(postTagsTable).select(
+          tx
+            .select({ postId: sql`${postId}` as any, tagId: tagsTable.id })
+            .from(tagsTable)
+            .leftJoin(postTagsTable, and(eq(postTagsTable.tagId, tagsTable.id), eq(postTagsTable.postId, postId)))
+            .where(and(inArray(tagsTable.name, updatePostInput.tags), isNull(postTagsTable.tagId)))
+        );
+        //   paso 4 soft delete
+        const tagsToDelete = tx.$with('tags_to_delete').as(
+          this.db
+            .select({ id: postTagsTable.tagId })
+            .from(postTagsTable)
+            .innerJoin(tagsTable, eq(postTagsTable.tagId, tagsTable.id))
+            .where(and(eq(postTagsTable.postId, updatePostInput.postId), notInArray(tagsTable.name, updatePostInput.tags)))
+        );
+        await tx
+          .with(tagsToDelete)
+          .delete(postTagsTable)
+          .where(inArray(postTagsTable.tagId, tx.select({ tagId: tagsToDelete.id }).from(tagsToDelete)));
+      }
+    });
+    return true;
   }
 
   // Contar el número total de posts de un usuario específico

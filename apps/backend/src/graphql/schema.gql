@@ -211,6 +211,7 @@ type Mutation {
   """Ejecuta la construcción de la base de datos """
   ExecuteSeed: Boolean!
   createNewPost(createPostInput: CreatePostInput!): PostWithoutRelations!
+  updatePost(updatePostInput: UpdatePostInput!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
@@ -229,6 +230,15 @@ input CreatePostInput {
   thumbnail: String
   tags: [String!]!
   published: Boolean
+}
+
+input UpdatePostInput {
+  title: String
+  content: String
+  thumbnail: String
+  tags: [String!]
+  published: Boolean
+  postId: Int!
 }
 
 """Datos requeridos para crear un nuevo usuario"""

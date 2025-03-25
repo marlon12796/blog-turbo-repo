@@ -12,11 +12,14 @@ export const postsTable = sqliteTable('posts', {
   thumbnail: text(),
   authorId: integer().references(() => usersTable.id),
   published: integer({ mode: 'boolean' }),
-  createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
-  updatedAt: integer({ mode: 'timestamp' })
-    .notNull()
+  createdAt: integer({ mode: 'timestamp' })
     .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: integer({ mode: 'timestamp' })
+    .default(sql`(unixepoch())`)
+    .$onUpdateFn(() => new Date())
+    .$type<Date>()
+    .notNull()
 });
 export const postsRelations = relations(postsTable, ({ many, one }) => ({
   postsToTags: many(postTagsTable),

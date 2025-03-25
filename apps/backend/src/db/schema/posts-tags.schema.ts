@@ -1,4 +1,4 @@
-import { int, sqliteTable, unique } from 'drizzle-orm/sqlite-core';
+import { int, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core';
 
 import { postsTable } from './posts.schema';
 import { tagsTable } from './tags.schema';
@@ -14,7 +14,11 @@ export const postTagsTable = sqliteTable(
       .notNull()
       .references(() => tagsTable.id)
   },
-  (t) => [unique('unique_post_tag').on(t.postId, t.tagId)]
+  (t) => [
+    primaryKey({
+      columns: [t.postId, t.tagId]
+    })
+  ]
 );
 export const postTagsRelations = relations(postTagsTable, ({ one }) => ({
   post: one(postsTable, {

@@ -1,1 +1,0 @@
-ALTER TABLE `likes` ADD `liked` integer DEFAULT true;

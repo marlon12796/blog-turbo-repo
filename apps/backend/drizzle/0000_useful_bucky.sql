@@ -13,6 +13,7 @@ CREATE TABLE `likes` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`postId` integer,
 	`userId` integer,
+	`liked` integer DEFAULT true,
 	`createdAt` integer DEFAULT (unixepoch()),
 	FOREIGN KEY (`postId`) REFERENCES `posts`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
@@ -22,11 +23,11 @@ CREATE UNIQUE INDEX `unique_like` ON `likes` (`userId`,`postId`);--> statement-b
 CREATE TABLE `post_tags` (
 	`postId` integer NOT NULL,
 	`tagId` integer NOT NULL,
+	PRIMARY KEY(`postId`, `tagId`),
 	FOREIGN KEY (`postId`) REFERENCES `posts`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`tagId`) REFERENCES `tags`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `unique_post_tag` ON `post_tags` (`postId`,`tagId`);--> statement-breakpoint
 CREATE TABLE `posts` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`slug` text NOT NULL,
@@ -35,7 +36,7 @@ CREATE TABLE `posts` (
 	`thumbnail` text,
 	`authorId` integer,
 	`published` integer,
-	`createdAt` integer DEFAULT (unixepoch()),
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
 	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
 	FOREIGN KEY (`authorId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
