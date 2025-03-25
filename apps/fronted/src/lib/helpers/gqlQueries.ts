@@ -123,6 +123,12 @@ export const getUserPosts = gql`
 `;
 export const createPostMutation = gql`
   mutation CreateNewPost($createPostInput: CreatePostInput!) {
-    createNewPost(createPostInput: $createPostInput)
+    createNewPost(createPostInput: $createPostInput) {
+      authorId
+      content
+      createdAt
+      published
+      id
+    }
   }
 `;

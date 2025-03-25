@@ -75,10 +75,13 @@ type User {
   updatedAt: DateTime!
 }
 
-"""Representa una publicación en la plataforma."""
-type Post {
+"""Post sin relaciones con otras entidades."""
+type PostWithoutRelations {
   """Identificador único del post."""
   id: Int!
+
+  """Slug de la publicación."""
+  slug: String!
 
   """Título de la publicación."""
   title: String!
@@ -98,8 +101,37 @@ type Post {
   """Última fecha de actualización del post."""
   updatedAt: DateTime!
 
-  """Titulo url Publicacion"""
+  """ID del autor de la publicación."""
+  authorId: Int!
+}
+
+"""Representa una publicación en la plataforma con relaciones."""
+type Post {
+  """Identificador único del post."""
+  id: Int!
+
+  """Slug de la publicación."""
   slug: String!
+
+  """Título de la publicación."""
+  title: String!
+
+  """Contenido principal del post."""
+  content: String!
+
+  """URL de la imagen en miniatura del post."""
+  thumbnail: String
+
+  """Indica si la publicación está publicada o en borrador."""
+  published: Boolean!
+
+  """Fecha de creación del post."""
+  createdAt: DateTime!
+
+  """Última fecha de actualización del post."""
+  updatedAt: DateTime!
+
+  """Etiquetas asociadas al post."""
   tags: [Tag!]!
 
   """Usuario que creó el post."""
@@ -118,6 +150,9 @@ type AuthorPost {
   """Identificador único del post."""
   id: Int!
 
+  """Slug de la publicación."""
+  slug: String!
+
   """Título de la publicación."""
   title: String!
 
@@ -135,9 +170,6 @@ type AuthorPost {
 
   """Última fecha de actualización del post."""
   updatedAt: DateTime!
-
-  """Titulo url Publicacion"""
-  slug: String!
 
   """Contadores asociados al post"""
   _count: PostCount!
@@ -178,7 +210,7 @@ type Query {
 type Mutation {
   """Ejecuta la construcción de la base de datos """
   ExecuteSeed: Boolean!
-  createNewPost(createPostInput: CreatePostInput!): String!
+  createNewPost(createPostInput: CreatePostInput!): PostWithoutRelations!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!

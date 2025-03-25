@@ -2,10 +2,9 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostInput } from './dto/create-post.input';
 import { DBSetup, PostsTable } from 'src/db/types/db.types';
 import { DB } from 'src/db/db.module';
-import { postsTable } from 'src/db/schema/posts.schema';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
 import { count, eq, inArray, SQL, sql } from 'drizzle-orm';
-import { usersTable } from '@/db/schema/users.schema';
+import { usersTable, postsTable } from '@/db/schema/db.schema';
 import { tagsTable, commentsTable, likesTable, postTagsTable } from '@/db/schema/db.schema';
 import slugify from 'slugify';
 @Injectable()
@@ -46,7 +45,7 @@ export class PostsService {
         .select(() => sql`SELECT ${post.id}, tags_id.id FROM tags_id `);
       return post;
     });
-    return 'addedPost';
+    return addedPost;
   }
 
   // Obtener todos los posts paginados

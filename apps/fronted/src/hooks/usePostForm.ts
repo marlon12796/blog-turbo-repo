@@ -5,6 +5,7 @@ import { PostFormState } from '@/lib/types/formState';
 import { initialFormPost, postFormReducer } from '@/reducers/postForm.reducer';
 import { useMutation } from '@urql/next';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 export const usePostForm = () => {
   const [formState, dispatch] = useReducer(postFormReducer, initialFormPost);
@@ -62,6 +63,7 @@ export const usePostForm = () => {
       await createPost({ createPostInput: { ...validation.data, thumbnail: url } });
       if (fileInputRef.current) fileInputRef.current.value = '';
       dispatch({ type: 'CLEAR_FORM' });
+      toast('Publicación creada', { description: 'Tu publicación se ha creado exitosamente.' });
     } catch (error) {
       console.error('Error creating post:', error);
     } finally {

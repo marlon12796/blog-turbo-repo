@@ -17,9 +17,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com', // Agregado para Google Avatars
         pathname: '/**'
+      },
+
+      {
+        protocol: 'https',
+        hostname: 'ozowdtwaefvmghtdtpab.supabase.co',
+        port: '',
+        pathname: '/**'
       }
     ]
   }
 };
-
 export default nextConfig;
