@@ -47,7 +47,6 @@ export class PostsService {
     };
     const hasPostChanges = Object.values(dataInputUpdate).length > 0;
     const hasTags = Array.isArray(tags) && tags.length > 0;
-
     if (!hasPostChanges && !hasTags) return true;
     await this.db.transaction(async (tx) => {
       if (hasPostChanges) await this.txPostsRepostitoty.updatePost(tx, postId, dataInputUpdate);

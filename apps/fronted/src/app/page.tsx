@@ -14,7 +14,7 @@ const Home = async ({ searchParams }: HomeTypes) => {
   const page = parseInt(params?.page ?? '1');
   const { posts, totalPosts } = await fetchPosts({ page, pageSize: limit });
 
-  const totalPages = Math.floor(totalPosts / limit);
+  const totalPages = Math.ceil(totalPosts / limit);
   return (
     <main>
       <Hero />

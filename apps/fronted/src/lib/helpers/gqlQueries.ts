@@ -132,3 +132,8 @@ export const createPostMutation = gql`
     }
   }
 `;
+export const updatePostMutation = gql`
+  mutation Mutation($updatePostInput: UpdatePostInput!) {
+    updatePost(updatePostInput: $updatePostInput)
+  }
+`;

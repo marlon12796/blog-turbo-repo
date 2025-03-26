@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DBSetup, PostsTable } from 'src/db/types/db.types';
-import { count, eq, inArray, SQL, sql } from 'drizzle-orm';
+import { count, desc, eq, inArray, SQL, sql } from 'drizzle-orm';
 import { postsTable, tagsTable, postTagsTable, usersTable, commentsTable, likesTable } from '@/db/schema/db.schema';
 import { CreatePostInput } from '../dto/create-post.input';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
@@ -41,7 +41,7 @@ export class PostsRepository {
     return addedPost;
   }
   async getAllPostsPaginated(offset: number, limit: number) {
-    return this.db.select().from(postsTable).offset(offset).limit(limit);
+    return this.db.select().from(postsTable).offset(offset).limit(limit).orderBy(desc(postsTable.createdAt));
   }
   async getPostById(postId: number) {
     const [postWithTags] = await this.db
@@ -73,7 +73,7 @@ export class PostsRepository {
     return postWithTags;
   }
   async getUsersPostPaginated(userId: number, paginationArgs: PaginitionArgs) {
-    const userPosts = await this.db
+    const userPosts = this.db
       .select({
         id: postsTable.id,
         title: postsTable.title,
@@ -94,7 +94,8 @@ export class PostsRepository {
       .where(eq(postsTable.authorId, userId))
       .limit(paginationArgs.limit)
       .groupBy(postsTable.id)
-      .offset(paginationArgs.offset);
+      .offset(paginationArgs.offset)
+      .orderBy(desc(postsTable.createdAt));
     return userPosts;
   }
   async countUserPosts(userId: number) {

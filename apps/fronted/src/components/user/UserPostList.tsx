@@ -15,7 +15,7 @@ const UserPostList = ({ posts, totalPages, currentPage }: { posts: Post[]; total
           <div className="col-span-1">Actions</div>
         </div>
       </div>
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <PostListItem post={post} key={post.id} />
       ))}
 

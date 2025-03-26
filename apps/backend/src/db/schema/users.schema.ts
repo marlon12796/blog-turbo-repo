@@ -15,10 +15,11 @@ export const usersTable = sqliteTable('users', {
     .notNull(),
   password: text(),
   createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
-  updatedAt: integer({ mode: 'timestamp' })
-    .notNull()
+  udatedAt: integer({ mode: 'timestamp' })
     .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`)
+    .$onUpdateFn(() => new Date())
+    .$type<Date>()
+    .notNull()
 });
 export const usersRelations = relations(usersTable, ({ many }) => ({
   posts: many(postsTable),

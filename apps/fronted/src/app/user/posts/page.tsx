@@ -14,7 +14,7 @@ const page = async ({ searchParams }: PostsUserTypes) => {
   const limit = parseInt(params?.limit ?? CONFIG.PAGE_SIZE.toString());
   const page = parseInt(params?.page ?? '1');
   const { posts, countUserPosts } = await fetchUserPosts({ page, pageSize: limit });
-  const totalPosts = Math.floor(countUserPosts / CONFIG.PAGE_SIZE);
+  const totalPosts = Math.ceil(countUserPosts / CONFIG.PAGE_SIZE);
   const isNoutFoundPosts = posts.length === 0 || countUserPosts === 0;
   return <>{isNoutFoundPosts ? <NoPosts /> : <UserPostList posts={posts} currentPage={page} totalPages={totalPosts} />}</>;
 };

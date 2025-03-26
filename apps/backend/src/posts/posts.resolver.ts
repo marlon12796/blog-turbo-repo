@@ -17,10 +17,10 @@ export class PostsResolver {
   createPost(@Args('createPostInput') createPostInput: CreatePostInput, @CurrentUser() user: UserTable) {
     return this.postsService.createNewPost(createPostInput, user.id);
   }
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Mutation(() => Boolean)
-  updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
-    return this.postsService.updatePost(updatePostInput, 4);
+  updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput, @CurrentUser() user: UserTable) {
+    return this.postsService.updatePost(updatePostInput, user.id);
   }
 
   @Query(() => [Post], { name: 'getAllPosts' })

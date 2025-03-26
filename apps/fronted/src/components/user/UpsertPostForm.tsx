@@ -6,11 +6,11 @@ import { Label } from '../ui/Label';
 import { Textarea } from '../ui/Textarea';
 import { Loader2 } from 'lucide-react';
 import { usePostForm } from '@/hooks/usePostForm';
+import { PostFormState } from '@/lib/types/formState';
 
-const UpsertPostForm = () => {
-  const { formState, isSubmitting, onSubmit, onCheckboxChange, fileInputRef, onImageChange, onInputChange } = usePostForm();
+const UpsertPostForm = ({ initialPost }: { initialPost?: PostFormState }) => {
+  const { formState, isSubmitting, onSubmit, onCheckboxChange, fileInputRef, onImageChange, onInputChange } = usePostForm(initialPost);
   const { data: postValuesForm, errors } = formState;
-
   return (
     <form className='flex flex-col gap-5' onSubmit={onSubmit}>
       {/* Título */}
@@ -64,7 +64,7 @@ const UpsertPostForm = () => {
             Processing...
           </div>
         ) : (
-          <span>Save</span>
+          <span>{initialPost?.data.postId ? 'Update' : 'Save'}</span>
         )}
       </SubmitButton>
     </form>

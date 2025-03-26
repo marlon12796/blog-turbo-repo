@@ -1,16 +1,13 @@
-import { createPostMutation } from '@/lib/helpers/gqlQueries';
-import { uploadThumbnail } from '@/lib/helpers/upload';
 import { PostFormSchema } from '@/lib/schemas/postForm.schema';
 import { PostFormState } from '@/lib/types/formState';
 import { initialFormPost, postFormReducer } from '@/reducers/postForm.reducer';
-import { useMutation } from '@urql/next';
 import { ChangeEvent, FormEvent, useReducer, useRef, useState } from 'react';
-import { toast } from 'sonner';
+import { usePostMutation } from './useToggleMutation';
 
-export const usePostForm = () => {
-  const [formState, dispatch] = useReducer(postFormReducer, initialFormPost);
+export const usePostForm = (initialPost?: PostFormState) => {
+  const [formState, dispatch] = useReducer(postFormReducer, initialPost ?? initialFormPost);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [createPostResult, createPost] = useMutation(createPostMutation);
+  const { onToggleSubmit } = usePostMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validateForm = (data: PostFormState['data']) => {
@@ -48,7 +45,6 @@ export const usePostForm = () => {
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-
     const validation = PostFormSchema.safeParse(formState.data);
     if (!validation.success) {
       dispatch({
@@ -59,11 +55,9 @@ export const usePostForm = () => {
       return;
     }
     try {
-      const url = await uploadThumbnail(validation.data.thumbnail);
-      await createPost({ createPostInput: { ...validation.data, thumbnail: url } });
+      await onToggleSubmit(validation.data);
       if (fileInputRef.current) fileInputRef.current.value = '';
       dispatch({ type: 'CLEAR_FORM' });
-      toast('Publicación creada', { description: 'Tu publicación se ha creado exitosamente.' });
     } catch (error) {
       console.error('Error creating post:', error);
     } finally {
