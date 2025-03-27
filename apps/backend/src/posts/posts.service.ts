@@ -58,6 +58,9 @@ export class PostsService {
     });
     return true;
   }
+  deletePost(postId: number, idUser: number) {
+    return this.postsRepository.deletePost(postId, idUser);
+  }
 
   async countUserPosts(userId: number) {
     return this.postsRepository.countUserPosts(userId);

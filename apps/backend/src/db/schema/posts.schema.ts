@@ -12,7 +12,7 @@ export const postsTable = sqliteTable('posts', {
   thumbnail: text(),
   authorId: integer().references(() => usersTable.id),
   published: integer({ mode: 'boolean' }),
-  deletedAt: integer({ mode: 'timestamp' }),
+  deletedAt: integer({ mode: 'timestamp' }).$type<Date>(),
   createdAt: integer({ mode: 'timestamp' })
     .default(sql`(unixepoch())`)
     .notNull(),

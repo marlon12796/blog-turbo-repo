@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { DBSetup, PostsTable } from 'src/db/types/db.types';
-import { count, desc, eq, inArray, SQL, sql } from 'drizzle-orm';
+import { and, count, desc, eq, inArray, SQL, sql } from 'drizzle-orm';
 import { postsTable, tagsTable, postTagsTable, usersTable, commentsTable, likesTable } from '@/db/schema/db.schema';
 import { CreatePostInput } from '../dto/create-post.input';
 import { PaginitionArgs } from '@/common/dto/args/pagination.args';
@@ -97,6 +97,20 @@ export class PostsRepository {
       .offset(paginationArgs.offset)
       .orderBy(desc(postsTable.createdAt));
     return userPosts;
+  }
+  async deletePost(postId: number, authorId: number) {
+    const deletedPost = await this.db
+      .update(postsTable)
+      .set(<PostsTable>{
+        deletedAt: sql`(unixepoch())` as unknown as Date,
+        published: false
+      })
+      .where(and(eq(postsTable.authorId, authorId), eq(postsTable.id, postId)))
+      .returning();
+    if (deletedPost.length > 0) return true;
+    const postExists = await this.db.select({ id: postsTable.id }).from(postsTable).where(eq(postsTable.id, postId)).limit(1);
+    if (postExists.length === 0) throw new NotFoundException('El post no existe.');
+    throw new ForbiddenException('No tienes permiso para eliminar este post.');
   }
   async countUserPosts(userId: number) {
     const [result] = await this.db

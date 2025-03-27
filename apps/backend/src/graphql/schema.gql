@@ -212,6 +212,7 @@ type Mutation {
   ExecuteSeed: Boolean!
   createNewPost(createPostInput: CreatePostInput!): PostWithoutRelations!
   updatePost(updatePostInput: UpdatePostInput!): Boolean!
+  deletePost(postId: Int!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!

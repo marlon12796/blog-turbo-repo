@@ -36,6 +36,7 @@ CREATE TABLE `posts` (
 	`thumbnail` text,
 	`authorId` integer,
 	`published` integer,
+	`deletedAt` integer,
 	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
 	`updatedAt` integer DEFAULT (unixepoch()) NOT NULL,
 	FOREIGN KEY (`authorId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action

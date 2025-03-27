@@ -38,7 +38,11 @@ export class PostsResolver {
   getUserPosts(@Args() paginationArgs: PaginitionArgs, @CurrentUser() user: UserTable) {
     return this.postsService.getUserPostsPaginated(user.id, paginationArgs);
   }
-
+  @UseGuards(JwtAuthGuard)
+  @Mutation(() => Boolean)
+  deletePost(@Args('postId', { type: () => Int }) postId: number, @CurrentUser() user: UserTable) {
+    return this.postsService.deletePost(postId, user.id);
+  }
   @UseGuards(JwtAuthGuard)
   @Query(() => Int, { name: 'countUserPosts' })
   countUserPosts(@CurrentUser() user: UserTable) {

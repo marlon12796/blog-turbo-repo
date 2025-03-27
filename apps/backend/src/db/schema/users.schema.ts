@@ -15,7 +15,7 @@ export const usersTable = sqliteTable('users', {
     .notNull(),
   password: text(),
   createdAt: integer({ mode: 'timestamp' }).default(sql`(unixepoch())`),
-  udatedAt: integer({ mode: 'timestamp' })
+  updatedAt: integer({ mode: 'timestamp' })
     .default(sql`(unixepoch())`)
     .$onUpdateFn(() => new Date())
     .$type<Date>()
