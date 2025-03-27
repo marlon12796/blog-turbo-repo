@@ -1,7 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import DeleteForm from '@/components/user/DeleteForm';
 import { AlertCircle } from 'lucide-react';
-import { useActionState } from 'react';
 
 type DeleteProps = {
   params: Promise<{
@@ -11,6 +10,7 @@ type DeleteProps = {
     title?: string;
   }>;
 };
+
 const Page = async (props: DeleteProps) => {
   const params = await props.params;
   const searchParam = await props.searchParams;
@@ -29,7 +29,7 @@ const Page = async (props: DeleteProps) => {
         <p>{searchParam?.title}</p>
       </CardDescription>
       <CardContent>
-        <DeleteForm />
+        <DeleteForm id={parseInt(params.id)} />
       </CardContent>
     </Card>
   );

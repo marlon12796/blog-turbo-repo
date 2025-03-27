@@ -1,19 +1,29 @@
 'use client';
 
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '../ui/Button';
 import SubmitButton from '../auth/SubmitButton';
-// import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { deleteUserPost } from '@/lib/actions/posts';
+import { useRouter } from 'next/navigation';
 
-const DeleteForm = () => {
-  // const [state, formAction, pending] = useActionState(createUser, initialState);
+const initialState = { message: '' };
+
+const DeleteForm = ({ id }: { id: number }) => {
+  const router = useRouter();
+  const deletePostAction = async () => await deleteUserPost(id);
+  const [state, formAction] = useActionState(deletePostAction, initialState);
+
+  useEffect(() => {
+    if (state.message) router.replace('/user/posts');
+  }, [router, state.message]);
 
   return (
-    <form className='flex justify-end gap-2'>
+    <form className='flex justify-end gap-2' action={formAction}>
       <Button variant={'secondary'} asChild>
-        <Link href={'/user/posts'}>Cancel</Link>
+        <Link href='/user/posts'>Cancel</Link>
       </Button>
-      <SubmitButton>Delete</SubmitButton>
+      <SubmitButton variant='destructive'>Delete</SubmitButton>
     </form>
   );
 };

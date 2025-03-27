@@ -31,7 +31,19 @@ const fetchUserPosts = async ({ page = 1, pageSize = 10 }: { page?: number; page
   };
 };
 const deleteUserPost = async (postId: number) => {
-  const result = await (await getClient()).mutation(deletePostMutation, { postId });
-  return result;
+  try {
+    const client = await getClient();
+    const result = await client.mutation(deletePostMutation, { postId });
+
+    if (!result?.data) {
+      throw new Error('No se pudo eliminar el post.');
+    }
+
+    return {message: 'El post ha sido eliminado exitosamente.' };
+  } catch (error) {
+    console.error('Error al eliminar el post:', error);
+    return { success: false, message: 'Hubo un problema al eliminar el post.' };
+  }
 };
+
 export { fetchPosts, fetchPostById, fetchUserPosts, deleteUserPost };

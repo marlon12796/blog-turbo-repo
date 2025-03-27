@@ -3,6 +3,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/Tooltip';
 import PostActions from './PostActions';
+import { dataUrl } from '@/lib/utils/loader';
 
 type Props = {
   post: Post;
@@ -21,8 +22,11 @@ const PostListItem = ({ post }: Props) => {
           className='size-full  object-cover'
           alt={post.title}
           width={500}
+          placeholder='blur'
+          blurDataURL={dataUrl ?? '/placeholder.png'}
           height={500}
           loading='lazy'
+          unoptimized={!post.thumbnail}
         />
       </div>
       <div className='flex flex-col text-left gap-2 col-start-2 col-span-3'>
