@@ -1,5 +1,5 @@
 'use server';
-import { getPostByIdQuery, getPostsQuery, getUserPosts } from '@/lib/helpers/gqlQueries';
+import { deletePostMutation, getPostByIdQuery, getPostsQuery, getUserPosts } from '@/lib/helpers/gqlQueries';
 import { getClient, publicClient } from '@/lib/helpers/urqlClient';
 import { Post } from '../types/modelTypes';
 import { transformLimitOffset } from '../utils/transform';
@@ -30,4 +30,8 @@ const fetchUserPosts = async ({ page = 1, pageSize = 10 }: { page?: number; page
     countUserPosts: data.countUserPosts
   };
 };
-export { fetchPosts, fetchPostById, fetchUserPosts };
+const deleteUserPost = async (postId: number) => {
+  const result = await (await getClient()).mutation(deletePostMutation, { postId });
+  return result;
+};
+export { fetchPosts, fetchPostById, fetchUserPosts, deleteUserPost };

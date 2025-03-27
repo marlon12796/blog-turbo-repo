@@ -15,35 +15,35 @@ const PostListItem = ({ post }: Props) => {
         !post.published ? 'opacity-50 grayscale' : ''
       }`}
     >
-      <div className="relative h-full w-full col-start-1 col-span-1">
+      <div className='relative h-full w-full col-start-1 col-span-1'>
         <Image
           src={post.thumbnail || '/no-image.png'}
-          className="size-full  object-cover"
+          className='size-full  object-cover'
           alt={post.title}
           width={500}
           height={500}
-          loading="lazy"
+          loading='lazy'
         />
       </div>
-      <div className="flex flex-col text-left gap-2 col-start-2 col-span-3">
-        <p className="text-lg text-balance text-slate-700">{post.title}</p>
-        <p className="text-sm line-clamp-5  text-pretty text-slate-500">{post.content}</p>
+      <div className='flex flex-col text-left gap-2 col-start-2 col-span-3'>
+        <p className='text-lg text-balance text-slate-700'>{post.title}</p>
+        <p className='text-sm line-clamp-5  text-pretty text-slate-500'>{post.content}</p>
       </div>
 
-      <p className="text-left">{new Date(post.createdAt).toLocaleDateString()}</p>
+      <p className='text-left'>{new Date(post.createdAt).toLocaleDateString()}</p>
 
-      <p className="text-left">{post._count.totalLikes}</p>
+      <p className='text-left'>{post._count.totalLikes}</p>
 
-      <p className="text-left">{post._count.totalComments}</p>
-      <PostActions postId={post.id} />
+      <p className='text-left'>{post._count.totalComments}</p>
+      <PostActions postId={post.id} title={post.title} />
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="flex justify-center items-center absolute right-0 m-2 top-1">
-              {post.published ? <Eye className="size-5 text-green-800" /> : <EyeOff className="size-5 text-red-500" />}
+            <div className='flex justify-center items-center absolute right-0 m-2 top-1'>
+              {post.published ? <Eye className='size-5 text-green-800' /> : <EyeOff className='size-5 text-red-500' />}
             </div>
           </TooltipTrigger>
-          <TooltipContent side="left">
+          <TooltipContent side='left'>
             <p>{post.published ? 'Published' : 'Unpublished'}</p>
           </TooltipContent>
         </Tooltip>

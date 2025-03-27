@@ -137,3 +137,8 @@ export const updatePostMutation = gql`
     updatePost(updatePostInput: $updatePostInput)
   }
 `;
+export const deletePostMutation = gql`
+  mutation DeletePost($postId: Int!) {
+    deletePost(postId: $postId)
+  }
+`;
